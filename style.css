@@ -94,3 +94,79 @@ td,th{padding:13px;border-bottom:1px solid #29261f;text-align:left;vertical-alig
   .admin-page .admin-tab{width:100%;font-size:13px;padding:12px 8px}
   .admin-page .admin-form input,.admin-page .admin-form select,.admin-page .admin-form textarea{font-size:14px}
 }
+
+/* ===== LUXURY CPM V3 REMASTER ===== */
+:root{--gold:#c9a45b;--bg:#090909;--panel:#11110f;--light:#f4f1e9;--muted:#aaa;--site-bg-image:none}
+body{background:var(--bg);position:relative;min-height:100vh}
+body.custom-bg{background-image:linear-gradient(#090909cc,#090909e8),var(--site-bg-image);background-size:cover;background-position:center;background-attachment:fixed}
+.site-header{z-index:100}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-logo-wrap{width:34px;height:34px;border-radius:10px;overflow:hidden;display:grid;place-items:center;background:#171511;box-shadow:inset 4px 4px 9px #050505,inset -4px -4px 9px #272319}
+.brand-logo{width:100%;height:100%;object-fit:cover}
+.hero{position:relative;background:radial-gradient(circle at 75% 35%,#3b3020 0,#17130d 28%,#090909 62%),var(--site-bg-image);background-size:cover;background-position:center}
+.category-section{padding-top:35px}
+.cats{position:sticky;top:86px;z-index:20;width:max-content;max-width:100%;display:flex;padding:8px;gap:8px;background:#11110fe8;border:1px solid #252219;border-radius:22px;box-shadow:12px 12px 25px #030303, -8px -8px 20px #1c1b18;backdrop-filter:blur(16px)}
+.cats button{height:44px;width:105px;background:#11110f;border:0;color:#aaa;border-radius:15px;box-shadow:5px 5px 10px #050505,-4px -4px 9px #1d1c18;transition:.2s ease}
+.cats button:hover,.cats button.active{color:var(--gold);background:#15130f;box-shadow:inset 4px 4px 9px #060606,inset -4px -4px 9px #242016}
+.toolbar{position:relative}
+.search-shell{position:relative;width:300px;height:48px;transition:width .28s ease;flex:0 0 auto}
+.search-shell.expanded{width:min(520px,48vw)}
+.search-shell input{width:100%;height:100%;margin:0!important;padding:0 82px 0 18px!important;border:0!important;border-radius:18px!important;background:#11110f!important;box-shadow:7px 7px 14px #040404,-7px -7px 14px #1d1c18!important;outline:0;color:#fff}
+.search-shell input:focus{box-shadow:inset 5px 5px 11px #050505,inset -5px -5px 11px #24221c!important}
+.search-icon{position:absolute;right:17px;top:10px;font-size:25px;line-height:28px;color:var(--gold);pointer-events:none}
+.search-clear{position:absolute;right:44px;top:9px;width:28px;height:30px;border:0;background:transparent;color:#aaa;font-size:25px;line-height:25px;cursor:pointer;z-index:2}
+.grid{grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px}
+.product-card{position:relative;background:#11110f;border:0!important;border-radius:22px;overflow:hidden;box-shadow:10px 10px 22px #030303,-9px -9px 20px #1d1c18;transition:transform .2s ease,box-shadow .2s ease}
+.product-card:hover{transform:translateY(-3px);box-shadow:13px 13px 26px #020202,-10px -10px 22px #222019}
+.image-wrap{overflow:hidden;background:#151513;box-shadow:inset 5px 5px 12px #080808,inset -5px -5px 12px #22211d}
+.card img,.service-card img{display:block;width:100%;aspect-ratio:1;object-fit:cover;background:#151513}
+.service-card img{aspect-ratio:16/9}
+.product-card .body{padding:17px}
+.meta-row{display:flex;align-items:center;justify-content:space-between;min-height:28px;gap:10px}
+.card-watermark{width:28px!important;height:28px!important;aspect-ratio:1!important;object-fit:contain!important;opacity:.38;border-radius:7px;filter:grayscale(1);box-shadow:none!important;background:transparent!important}
+.tag{font-weight:800}
+.product-card h3{margin:8px 0 10px}
+.product-card .add{box-shadow:5px 5px 10px #060606,-4px -4px 9px #242016}
+.product-card .add:active{box-shadow:inset 4px 4px 8px #8b6d35,inset -4px -4px 8px #dfbf78}
+.empty-state{color:#888;padding:25px}
+footer{display:none!important}
+
+/* Website popup — replaces browser alert/confirm */
+.site-popup{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:18px;background:#000b;backdrop-filter:blur(10px)}
+.popup-card{position:relative;width:min(430px,100%);padding:30px;border-radius:25px;background:#11110f;box-shadow:18px 18px 38px #020202,-12px -12px 28px #24221d;border:1px solid #252219}
+.popup-close{position:absolute;right:14px;top:11px;width:36px;height:36px;border:0;border-radius:12px;background:#11110f;color:#aaa;font-size:25px;cursor:pointer;box-shadow:5px 5px 10px #050505,-4px -4px 9px #201e19}
+.popup-icon{width:50px;height:50px;border-radius:16px;display:grid;place-items:center;margin-bottom:18px;color:var(--gold);font-weight:900;font-size:22px;background:#11110f;box-shadow:inset 5px 5px 10px #050505,inset -5px -5px 10px #24221d}
+.popup-card h3{font:700 29px Georgia,serif;margin:8px 0 10px}.popup-card p:not(.eyebrow){color:#aaa;line-height:1.7}.popup-action{width:100%;margin-top:12px}
+
+/* Admin inherits neumorphism */
+.admin-page .panel{background:#11110f;border:0;box-shadow:12px 12px 26px #030303,-10px -10px 22px #1d1c18}
+.admin-page .admin-tab,.admin-page nav button{background:#11110f;border:0;box-shadow:5px 5px 10px #050505,-4px -4px 9px #201e19}
+.admin-page .admin-tab.active{box-shadow:inset 4px 4px 9px #050505,inset -4px -4px 9px #242016}
+.admin-page input,.admin-page textarea,.admin-page select{background:#11110f!important;border:0!important;box-shadow:inset 5px 5px 10px #050505,inset -5px -5px 10px #22201b!important}
+.admin-page .gold-btn{box-shadow:5px 5px 10px #060606,-4px -4px 9px #252116}
+.admin-page table{box-shadow:inset 4px 4px 10px #050505,inset -4px -4px 10px #1d1b17}
+
+@media(max-width:700px){
+ .hero{min-height:500px}
+ .cats{position:sticky;top:75px;width:100%;gap:6px;padding:7px;border-radius:19px}
+ .cats button{width:auto;flex:1;height:43px;font-size:11px;padding:0 4px}
+ .toolbar{display:flex;align-items:center;gap:12px}
+ .toolbar>div:first-child{min-width:0}
+ .toolbar h2{font-size:28px;margin-bottom:0}
+ .toolbar .eyebrow{margin-bottom:4px}
+ .search-shell{width:48px;height:44px;flex:0 0 48px}
+ .search-shell.expanded{width:min(100%,calc(100vw - 40px))}
+ .search-shell:not(.expanded) input{opacity:0;pointer-events:none}
+ .search-shell:not(.expanded) .search-icon{right:11px}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .product-card{border-radius:18px}
+ .product-card .body{padding:11px}
+ .product-card h3{font-size:16px}
+ .product-card .spec,.product-card .description{font-size:12px}
+ .product-card .price{font-size:15px}
+ .product-card .add{padding:10px;font-size:12px}
+ .card-watermark{width:23px!important;height:23px!important}
+ .site-popup{padding:14px}
+ .popup-card{padding:25px;border-radius:21px}
+ .admin-page .panel{box-shadow:8px 8px 18px #030303,-7px -7px 16px #1d1c18}
+}
