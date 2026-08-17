@@ -1,74 +1,49 @@
-<!doctype html>
-<html lang="id">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Luxury CPM Store</title>
-<link rel="stylesheet" href="/style.css">
-</head>
-<body>
-<header class="site-header">
-  <a class="brand" href="/">
-    <span class="brand-logo-wrap"><img id="brandLogo" class="brand-logo hidden" alt="Luxury CPM logo"></span>
-    <span>LUXURY<span>CPM</span></span>
-  </a>
-  <nav><a href="#products">Produk</a><a href="#categories">Kategori</a></nav>
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Insomnia Childhood — Car Parking Multiplayer</title><style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#06111f;color:#edf7ff;font-family:Inter,Arial,sans-serif;padding-bottom:82px}button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}a{text-decoration:none;color:inherit}
+.top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:12px max(14px,calc((100% - 1050px)/2));background:#06111feF;backdrop-filter:blur(15px);border-bottom:1px solid #173653}.brand{display:flex;align-items:center;gap:10px}.logo{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#1590ff,#0756c9);font-weight:900}.brand b{font-size:12px}.brand small{display:block;color:#6dbaff;font-size:9px;margin-top:3px}.admin-link{font-size:9px;font-weight:800;padding:9px 11px;border:1px solid #23547f;border-radius:9px;color:#9bd2ff;background:#0b2137}
+.wrap{width:min(1050px,calc(100% - 18px));margin:16px auto}.hero,.section,.panel{border:1px solid #193d5e;background:#091c2e;border-radius:19px}.hero{text-align:center;padding:42px 18px 28px;background:linear-gradient(180deg,#0a2946,#071a2b)}.eyebrow{font-size:9px;letter-spacing:1.5px;font-weight:800;color:#6dbaff}.pill{display:inline-block;padding:7px 11px;border:1px solid #205487;border-radius:99px;background:#0a2947}.hero h1{font-size:clamp(32px,7vw,55px);line-height:1.03;letter-spacing:-2px;margin:18px 0 12px}.hero h1 span{color:#2295ff}.hero p{max-width:650px;margin:auto;color:#8ca6bd;font-size:12px;line-height:1.7}.actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:22px 0 14px}.btn,.primary{border:0;border-radius:10px;padding:11px 16px;font-size:10px;font-weight:800}.primary{background:linear-gradient(135deg,#168dff,#0759d2);color:white}.secondary{background:#102a44;border:1px solid #28577f;color:#a5d5ff}.trust{font-size:9px;color:#708aa1}.trust b{color:#9bcfff}.section{padding:20px;margin-top:14px}.section-head,.toolbar,.panel-head{display:flex;justify-content:space-between;align-items:end}.section h2,.panel h2{font-size:19px;margin:5px 0}.muted{font-size:10px;color:#7891a9;margin:0}.toolbar{gap:8px;margin:22px auto;display:flex;align-items:center;justify-content:center;width:min(100%,860px)}.toolbar>*{min-width:0}.search{flex:1;padding:11px;background:#071827;border:1px solid #204766;border-radius:10px;color:white;outline:0}.filter{padding:11px;background:#071827;border:1px solid #204766;border-radius:10px;color:white}.cars{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.car{overflow:hidden;border:1px solid #1a405f;border-radius:14px;background:#081b2d}.car-img{height:145px;background:linear-gradient(135deg,#082a4b,#0d8cff);display:grid;place-items:center;color:#a9dcff;font-size:28px;font-weight:900}.car-info{padding:12px}.tag{font-size:8px;color:#65b5ff;font-weight:800}.car h3{font-size:12px;margin:6px 0}.car p{font-size:9px;color:#718aa0;margin:0}.buyrow{display:flex;justify-content:space-between;align-items:center;margin-top:12px}.buyrow strong{font-size:12px}.buyrow button{border:0;border-radius:8px;background:#0e72df;color:#fff;padding:8px 11px;font-size:9px;font-weight:800}.contacts{display:block;margin-top:28px}.contacts .panel{width:100%}.social-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}.products{margin-top:34px}.panel{padding:18px}.links{display:grid;gap:7px;margin-top:14px}.links a{padding:11px;border:1px solid #1b415f;background:#0a2238;border-radius:9px;font-size:10px;display:flex;justify-content:space-between}.links span{color:#71a7d5}.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);z-index:25;width:min(650px,100%);display:grid;grid-template-columns:repeat(4,1fr);padding:7px 6px calc(7px + env(safe-area-inset-bottom));background:#05101ff5;backdrop-filter:blur(16px);border:1px solid #1b3b5a;border-bottom:0;border-radius:16px 16px 0 0}.bottom a{display:flex;flex-direction:column;align-items:center;gap:3px;color:#687887;font-size:8px;font-weight:800;padding:6px}.nav-icon{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.bottom a.active{color:#3197ff}
+#adminView{min-height:100vh;background:#06111f}.admin-login{min-height:100vh;display:grid;place-items:center;padding:18px;background:radial-gradient(circle at 50% 0,#0d3864,transparent 45%)}.login-card{width:min(390px,100%);padding:28px;border:1px solid #1b4264;border-radius:19px;background:#0a1c2e}.login-card input,.admin-panel input,.admin-panel select{width:100%;padding:11px;margin:6px 0 9px;background:#071827;color:#fff;border:1px solid #204766;border-radius:9px;outline:0}.login-card .primary{width:100%}.admin-app{display:flex;min-height:100vh}.sidebar{width:225px;background:#071725;border-right:1px solid #183b5a;padding:17px;display:flex;flex-direction:column}.sidebrand{display:flex;align-items:center;gap:9px;margin-bottom:24px}.sidebrand small{display:block;color:#718aa3;font-size:8px;margin-top:3px}.navs{display:grid;gap:4px}.navbtn,.logout{border:0;background:transparent;color:#7891a9;text-align:left;padding:11px;border-radius:9px;font-size:10px;font-weight:700}.navbtn.active,.navbtn:hover{background:#0d2944;color:#55aaff}.logout{margin-top:auto;border:1px solid #263f55}.admin-main{flex:1;padding:22px;max-width:1200px}.admin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.admin-head h1{margin:4px 0;font-size:23px}.online{font-size:8px;color:#3bdf89}.admin-page{display:none}.admin-page.active{display:block}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat,.admin-panel{border:1px solid #193d5e;background:#091c2e;border-radius:13px;padding:16px}.stat small{color:#7891a9;font-size:9px}.stat strong{display:block;font-size:25px;margin-top:7px}.admin-panel{margin-top:11px}.admin-panel h2{font-size:16px;margin:4px 0 14px}.quick button,.row button{border:1px solid #244760;background:#0b253c;color:#9bcfff;border-radius:8px;padding:9px;font-size:9px;margin:3px}.admin-panel label{display:block;color:#7892aa;font-size:9px;margin-top:9px}.car-row{display:grid;grid-template-columns:70px 1fr auto;gap:10px;align-items:center;margin:7px 0;padding:9px;border:1px solid #193d5e;border-radius:11px;background:#091c2e}.thumb{height:54px;border-radius:8px;background:#0d4778 center/cover;display:grid;place-items:center;color:#a4d6ff;font-size:8px}.car-row h3{font-size:11px;margin:0 0 4px}.car-row p{font-size:9px;color:#7891a9;margin:0}.modal{position:fixed;inset:0;background:#000a;z-index:50;display:grid;place-items:center;padding:17px}.modal-card{width:min(480px,100%);background:#091c2e;border:1px solid #214664;border-radius:17px;padding:19px}.modal-card label{display:block;color:#7892aa;font-size:9px;margin-top:9px}.modal-card input,.modal-card select{width:100%;padding:10px;background:#061725;color:#fff;border:1px solid #214765;border-radius:8px;margin-top:4px}.modal-card button{margin-top:13px}
+@media(min-width:801px){.section{max-width:1050px;margin-left:auto;margin-right:auto}.toolbar{width:min(860px,90%);margin-left:auto;margin-right:auto}.filter{min-width:150px}.search{max-width:520px}}
+@media(max-width:800px){.toolbar{width:100%;margin:18px 0}.cars{grid-template-columns:repeat(2,1fr)}.social-grid{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:1fr 1fr}.sidebar{width:67px;padding:10px}.sidebrand b,.sidebrand small,.navbtn span,.logout span{display:none}.navbtn{text-align:center}.admin-main{padding:14px}}
+@media(max-width:480px){.cars{grid-template-columns:1fr}.social-grid{grid-template-columns:repeat(2,1fr)}.hero{padding:32px 13px 23px}.brand small{display:none}.admin-app .sidebar{display:none}.car-row{grid-template-columns:58px 1fr}.thumb{height:50px}.row{grid-column:1/-1}}
+</style></head><body><div id="storeView">
+<header class="top">
+  <div class="brand"><div class="logo">IC</div><div><b>INSOMNIA CHILDHOOD</b><small>Car Parking Multiplayer Service</small></div></div>
+  <a class="admin-link" href="/admin">Admin Panel</a>
 </header>
-
-<section class="hero">
-  <div>
-    <p class="eyebrow">CAR PARKING MULTIPLAYER</p>
-    <h1>Premium Cars.<br><i>Premium Service.</i></h1>
-    <p>Marketplace eksklusif untuk mobil CPM dan jasa pilihan.</p>
-    <a class="gold-btn" href="#products">Jelajahi Store</a>
-  </div>
+<main class="wrap">
+<section id="home" class="hero">
+  <span class="pill eyebrow">CAR PARKING MULTIPLAYER</span>
+  <h1>Car Parking<br><span>Multiplayer Service</span></h1>
+  <p>Temukan berbagai mobil Car Parking Multiplayer dengan tampilan keren dan siap dipilih sesuai kebutuhan kamu.</p>
+  <div class="trust">✓ Platform di sediakan oleh <b>Insomnia Childhood</b></div>
 </section>
-
-<section id="categories" class="section category-section">
-  <div class="section-title">
-    <p class="eyebrow">EXPLORE</p>
-    <h2>Kategori</h2>
-    <p class="category-hint">Pilih kategori atau buka pencarian untuk menemukan produk dengan cepat.</p>
-  </div>
+<section id="adminContact" class="contacts">
+  <article class="panel"><span class="eyebrow">CONTACT & SOCIAL</span><h2>CS & Media Social</h2><p class="muted">Hubungi admin atau ikuti media sosial untuk info stok dan update terbaru.</p><div class="social-grid"><a id="waLink" href="#"><b>WhatsApp</b><span>Chat Admin →</span></a><a id="tgLink" href="#"><b>Telegram</b><span>Chat Admin →</span></a><a id="ttLink" href="#"><b>TikTok</b><span>Insomnia Childhood →</span></a><a id="ytLink" href="#"><b>YouTube</b><span>Insomnia Childhood →</span></a></div></article>
 </section>
-
-<!-- Floating category/search dock inspired by Gemini's bottom search UI -->
-<div class="category-dock-wrap" id="categoryDockWrap">
-  <div class="category-dock" id="categoryDock" role="navigation" aria-label="Filter kategori dan pencarian">
-    <div class="category-dock-row">
-      <div class="category-chips" id="categoryBar">
-        <button class="active" data-cat="all" type="button">Semua</button>
-        <button data-cat="cpm1" type="button">CPM 1</button>
-        <button data-cat="cpm2" type="button">CPM 2</button>
-        <button data-cat="jasa" type="button">Jasa</button>
-      </div>
-      <div class="dock-search" id="searchShell">
-        <input id="search" type="search" autocomplete="off" placeholder="Cari produk..." aria-label="Cari produk">
-        <button id="searchToggle" class="search-toggle" type="button" aria-label="Buka pencarian" aria-expanded="false">⌕</button>
-        <button id="clearSearch" class="search-clear hidden" type="button" aria-label="Hapus pencarian">×</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<section id="products" class="section products-section">
-  <div class="toolbar">
-    <div><p class="eyebrow">COLLECTION</p><h2>Produk pilihan</h2></div>
-  </div>
-  <div id="grid" class="grid"></div>
+<section id="store" class="products">
+  <div class="cars" id="storeCars"></div>
 </section>
-
-<div id="sitePopup" class="site-popup hidden" role="dialog" aria-modal="true" aria-live="polite">
-  <div class="popup-card">
-    <button id="popupClose" class="popup-close" type="button">×</button>
-    <div class="popup-icon" id="popupIcon">✓</div>
-    <p class="eyebrow" id="popupEyebrow">NOTICE</p>
-    <h3 id="popupTitle">Pemberitahuan</h3>
-    <p id="popupMessage"></p>
-    <button id="popupAction" class="gold-btn popup-action hidden" type="button">OK</button>
-  </div>
-</div>
-
-<script type="module" src="/store.js"></script>
-</body>
-</html>
+</main>
+<nav class="bottom">
+<a class="active" href="#home"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 10.8 12 3l9 7.8M5.5 9.8V21h13V9.8M9.5 21v-6h5v6"/></svg><span>Home</span></a>
+<a href="#store"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M5 8.5h14l1 12H4l1-12ZM8.5 8.5V6a3.5 3.5 0 0 1 7 0v2.5"/></svg><span>Store</span></a>
+<a href="#adminContact"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M7 18.5h10a3 3 0 0 0 3-3v-4a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v4a3 3 0 0 0 3 3ZM8 8.5V7a4 4 0 0 1 8 0v1.5M8 18.5v2M16 18.5v2"/></svg><span>CS Admin</span></a>
+<a href="#social"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M7 18.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7ZM17 12.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7ZM9.8 14l4.4-3"/></svg><span>Social</span></a>
+</nav>
+</div><script>
+const DEFAULT_CARS=[
+{id:1,name:"Nissan GT-R R35",price:35000,type:"sport",image:"",status:"available"},
+{id:2,name:"Toyota Supra MK4",price:30000,type:"jdm",image:"",status:"available"},
+{id:3,name:"BMW M4",price:40000,type:"luxury",image:"",status:"available"},
+{id:4,name:"Lamborghini Huracan",price:50000,type:"sport",image:"",status:"available"},
+{id:5,name:"Nissan Silvia S15",price:28000,type:"jdm",image:"",status:"available"},
+{id:6,name:"Mercedes AMG GT",price:45000,type:"luxury",image:"",status:"available"}];
+let cars=JSON.parse(localStorage.getItem("ic_cars")||"null")||DEFAULT_CARS;
+let contact=JSON.parse(localStorage.getItem("ic_contact")||"null")||{wa:"6281234567890",tg:"#",tt:"#",yt:"#"};
+function money(n){return"Rp "+Number(n).toLocaleString("id-ID")}
+function renderStore(){const list=cars;storeCars.innerHTML=list.map(c=>`<article class="car"><div class="car-img" ${c.image?`style="background-image:url('${c.image}');background-size:cover;background-position:center;color:transparent"`:""}>${c.image?"":"CAR"}</div><div class="car-info"><span class="tag">${c.type.toUpperCase()}</span><h3>${c.name}</h3><p>${c.status==="available"?"Ready":"Stok habis"}</p><div class="buyrow"><strong>${money(c.price)}</strong>${c.status==="available"?`<button onclick="buyCar('${c.name.replace(/'/g,"\\'")}')">Beli</button>`:"<span class='muted'>Habis</span>"}</div></div></article>`).join("")||"<p class='muted'>Mobil tidak ditemukan.</p>"}
+function buyCar(name){const num=contact.wa.replace(/\D/g,"");if(num)location.href="https://wa.me/"+num+"?text="+encodeURIComponent("Halo Admin Insomnia Childhood, saya mau membeli "+name+".");else alert("Nomor WhatsApp admin belum diatur.")}
+function applyContact(){waLink.href="https://wa.me/"+contact.wa.replace(/\D/g,"");tgLink.href=contact.tg||"#";ttLink.href=contact.tt||"#";ytLink.href=contact.yt||"#"}
+document.addEventListener("DOMContentLoaded",()=>{renderStore();applyContact()});
+</script></body></html>
