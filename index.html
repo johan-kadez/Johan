@@ -15,11 +15,23 @@ body {
   background-position: center;
   background-attachment: fixed;
 }
+
+.site-header.transparent-header {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
 </style>
 
 </head>
 <body>
-<header class="site-header">
+<header class="site-header transparent-header">
   <a class="brand" href="/">
     <span class="brand-logo-wrap">
       <img id="brandLogo" src="logo.png" alt="Logo">
