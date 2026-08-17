@@ -1,0 +1,96 @@
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#090909;color:#f4f1e9;font:15px Arial,sans-serif}
+header{height:74px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #29251e;background:#090909e8;backdrop-filter:blur(14px);position:sticky;top:0;z-index:10}
+.brand{color:#f4f1e9;text-decoration:none;font-weight:900;letter-spacing:4px;font-size:18px}
+.brand span{color:#c9a45b}
+nav{display:flex;align-items:center;gap:20px}
+nav a{color:#aaa;text-decoration:none}
+nav a:hover{color:#c9a45b}
+nav button{background:#171511;color:#eee;border:1px solid #302b21;padding:10px 14px;border-radius:10px}
+.hero{min-height:600px;padding:100px 8%;display:flex;align-items:center;background:radial-gradient(circle at 75% 35%,#3b3020 0,#17130d 28%,#090909 62%)}
+.hero>div{max-width:760px}
+.eyebrow{font-size:11px;letter-spacing:4px;color:#c9a45b;font-weight:bold}
+.hero h1{font:700 clamp(48px,8vw,92px)/.94 Georgia,serif;margin:18px 0}
+.hero h1 i{color:#c9a45b;font-weight:400}
+.hero p:not(.eyebrow){color:#aaa;max-width:520px;line-height:1.8}
+.gold-btn{display:inline-block;margin-top:20px;background:#c9a45b;color:#111;border:0;padding:14px 22px;border-radius:12px;font-weight:800;cursor:pointer;text-decoration:none}
+.section{padding:70px 7%}
+.section-title h2,.toolbar h2{font:700 38px Georgia,serif;margin:8px 0 28px}
+.cats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;width:100%}
+.cats button{height:70px;min-width:0;background:#111;border:1px solid #2d291f;color:#eee;padding:8px 5px;border-radius:14px;font:700 14px Arial,sans-serif;cursor:pointer;white-space:nowrap}
+.cats button:hover,.cats button.active{border-color:#c9a45b;color:#c9a45b;background:#17140f}
+.toolbar{display:flex;justify-content:space-between;align-items:end;gap:20px}
+.toolbar input{width:300px;background:#111;color:#eee;border:1px solid #302c24;padding:13px 15px;border-radius:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+.card,.service-card{background:#10100f;border:1px solid #29261f;border-radius:18px;overflow:hidden}
+.card img,.service-card img{width:100%;aspect-ratio:1;object-fit:cover;background:#181715}
+.service-card img{aspect-ratio:16/9}
+.body{padding:18px}
+.tag{color:#c9a45b;font-size:10px;letter-spacing:2px}
+.card h3,.service-card h3{margin:8px 0;font:700 21px Georgia,serif}
+.price{font-size:18px;font-weight:800}
+.stock{color:#888;font-size:12px}
+.spec,.description{color:#aaa;line-height:1.65;white-space:pre-line}
+.add{width:100%;margin-top:12px;padding:12px;background:#c9a45b;border:0;border-radius:11px;font-weight:bold;cursor:pointer}
+.add:disabled{opacity:.4;cursor:not-allowed}
+.modal{position:fixed;inset:0;background:#000b;display:grid;place-items:center;padding:20px;z-index:40}
+.hidden{display:none!important}
+.modal-box{position:relative;background:#111;border:1px solid #3a3327;padding:30px;width:min(440px,100%);border-radius:18px}
+.close{position:absolute;right:12px;top:7px;background:none;border:0;color:#fff;font-size:30px;cursor:pointer}
+form{display:grid;gap:12px}
+form input,form textarea,form select{font:inherit;background:#090909;color:#fff;border:1px solid #302c24;padding:13px;border-radius:11px;width:100%}
+form textarea{min-height:110px}
+footer{padding:40px 7%;border-top:1px solid #26231d;color:#777;text-align:center;font-size:11px;letter-spacing:2px}
+.admin-main{max-width:1150px;margin:auto;padding:50px 5%}
+.panel{background:#111;border:1px solid #302c24;padding:25px;margin:20px 0;border-radius:18px}
+.panel h1,.panel h2{font-family:Georgia,serif}
+.login{max-width:420px;margin:80px auto}
+.admin-tabs{display:flex;gap:10px;margin-bottom:20px}
+.admin-tab{border:1px solid #302c24;background:#0a0a0a;color:#aaa;padding:11px 16px;border-radius:11px;cursor:pointer}
+.admin-tab.active{border-color:#c9a45b;color:#c9a45b}
+.admin-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.admin-form textarea{min-height:90px}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:separate;border-spacing:0;min-width:760px}
+td,th{padding:13px;border-bottom:1px solid #29261f;text-align:left;vertical-align:top}
+.danger{background:#7d2929;color:#fff;border:0;padding:8px 11px;border-radius:9px;cursor:pointer}
+@media(max-width:700px){
+ header{padding:0 4%}
+ nav a{display:none}
+ .hero{min-height:520px;padding:75px 7%}
+ .section{padding:50px 5%}
+ .cats{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+ .cats button{height:58px;padding:5px 2px;border-radius:11px;font-size:10px}
+ .toolbar{display:block}
+ .toolbar input{width:100%;margin-bottom:22px}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .card h3,.service-card h3{font-size:17px}
+ .body{padding:12px}
+ .admin-form{grid-template-columns:1fr}
+ .admin-tabs{flex-wrap:wrap}
+}
+/* ADMIN — same visual language as the public Luxury CPM store */
+.admin-page{min-height:100vh;background:#090909}
+.admin-page .admin-main{max-width:1180px}
+.admin-page .admin-main>h1{font:700 clamp(38px,6vw,58px)/1 Georgia,serif;margin:20px 0 30px}
+.admin-page .login{max-width:520px;margin:70px auto}
+.admin-page .login h1{font:700 clamp(38px,7vw,58px)/1 Georgia,serif;margin:12px 0 30px}
+.admin-page .panel{box-shadow:0 18px 50px #0008}
+.admin-page .panel h2{font-size:30px;margin:8px 0 22px}
+.admin-page .gold-btn{margin-top:4px}
+.admin-page table{background:#0d0d0c;border-radius:14px;overflow:hidden}
+.admin-page th{color:#c9a45b;font-size:11px;letter-spacing:1px;text-transform:uppercase}
+.admin-page td{color:#c9c6bf}
+.admin-page nav button{cursor:pointer}
+@media(max-width:700px){
+  .admin-page header{height:68px}
+  .admin-page .admin-main{padding:35px 5%}
+  .admin-page .admin-main>h1{font-size:42px;margin-top:8px}
+  .admin-page .panel{padding:18px;border-radius:16px}
+  .admin-page .login{margin:45px auto}
+  .admin-page .login h1{font-size:42px}
+  .admin-page .admin-tabs{display:grid;grid-template-columns:1fr 1fr}
+  .admin-page .admin-tab{width:100%;font-size:13px;padding:12px 8px}
+  .admin-page .admin-form input,.admin-page .admin-form select,.admin-page .admin-form textarea{font-size:14px}
+}
