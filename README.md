@@ -1,4 +1,4 @@
-# LUXURY CPM STORE V2
+# Johan Abrakadabraw
 
 Struktur:
 - `index.html` = public store saja.
