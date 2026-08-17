@@ -16,39 +16,22 @@ body {
   background-attachment: fixed;
 }
 
-/* HEADER BENAR-BENAR TRANSPARAN — background tetap terlihat */
-.site-header,
-.site-header::before,
-.site-header::after,
-.site-header .header-inner,
-.site-header .brand-logo-wrap {
+.site-header.transparent-header {
   background: transparent !important;
   background-color: transparent !important;
   box-shadow: none !important;
-  border: 0 !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-.site-header {
+  border: none !important;
   position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100% !important;
-  min-height: 0 !important;
-  z-index: 1000 !important;
-}
-
-.site-header .brand {
-  background: transparent !important;
-  box-shadow: none !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 </style>
 
 </head>
 <body>
-<header class="site-header">
+<header class="site-header transparent-header">
   <a class="brand" href="/">
     <span class="brand-logo-wrap">
       <img id="brandLogo" src="logo.png" alt="Logo">
