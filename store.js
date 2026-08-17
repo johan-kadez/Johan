@@ -64,7 +64,7 @@ function orderWhatsApp(id){
 
   const number="6283129582374";
 
-  const message=`Yo Bitch I wanna order "${p.name||"Produk"}", is it still ready bitch?`;
+  const message=`Yo Bitch I wanna order "${p.name||Produk}", is it still ready bitch?`;
 
   window.open(
     `https://wa.me/${number}?text=${encodeURIComponent(message)}`,
