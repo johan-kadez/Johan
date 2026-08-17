@@ -339,3 +339,34 @@ footer{display:none!important}
 /* Avoid browser tap delay and accidental text selection on the floating controls. */
 .category-dock,.category-dock button{user-select:none;-webkit-user-select:none}
 .category-dock button,.category-dock input{touch-action:manipulation}
+
+
+/* ===== FINAL LUXURYCPM LAYOUT FIX ===== */
+.social-section{padding-top:18px;padding-bottom:82px}
+.social-card{max-width:1040px;margin:0 auto;padding:28px 30px;border:1px solid #29251e;border-radius:22px;background:linear-gradient(145deg,#12110e,#0c0c0a);box-shadow:12px 12px 28px #030303,-8px -8px 22px #1c1b17}
+.social-card h2{font:700 38px Georgia,serif;margin:7px 0 8px}
+.social-sub{color:#888;line-height:1.65;margin:0 0 22px}
+.social-links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.social-links a{min-height:62px;padding:15px 16px;border:1px solid #29261f;border-radius:14px;background:#0e0e0c;display:flex;align-items:center;justify-content:space-between;gap:10px;text-decoration:none}
+.social-links strong{color:#eee8dd}.social-links span{color:var(--gold);font-size:12px}
+.products-section{padding-top:32px}
+/* Desktop: the floating Gemini-style dock stays floating, but is centered inside a sane column width. */
+@media(min-width:701px){
+ .category-dock-wrap{padding:0 24px}
+ .category-dock{width:min(820px,calc(100vw - 48px));margin:0 auto}
+ .category-dock-row{justify-content:center}
+ .category-chips{flex:0 1 auto}
+ .category-chips button{min-width:125px}
+ .dock-search{flex:0 0 50px}
+ .dock-search.expanded{flex-basis:360px;width:360px}
+ .products-section{max-width:1040px;margin:0 auto}
+}
+@media(max-width:700px){
+ .social-section{padding-top:8px;padding-bottom:48px}
+ .social-card{padding:21px 18px;border-radius:20px}
+ .social-card h2{font-size:30px}
+ .social-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .social-links a{min-height:60px;padding:13px 11px;display:block}
+ .social-links span{display:block;margin-top:5px}
+ .products-section{padding-top:24px}
+}

@@ -41,3 +41,10 @@ Firebase:
 - `/admin/` memakai absolute asset paths sehingga `style.css`, `admin.js`, dan Firebase config tidak 404 saat Vercel melakukan rewrite ke `admin.html`.
 - Filter kategori store menormalisasi `cpm1`, `CPM 1`, `cpm 1`, `Mobil CPM 1`, dan variasi setara; hal yang sama untuk CPM 2 dan Jasa. Jadi data lama tetap bisa muncul pada filter yang benar.
 - Link Admin tidak ditampilkan di public store.
+
+
+## Layout update
+- Jelajahi Store dihapus.
+- Explore/Kategori heading dan deskripsinya dihapus.
+- Floating bar kategori + search tetap ada dan dipusatkan di desktop.
+- CS & Media Social berada sebelum produk, dengan jarak yang jelas.

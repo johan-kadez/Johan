@@ -33,6 +33,8 @@ $("sitePopup").addEventListener("click",e=>{if(e.target===$("sitePopup"))hidePop
 document.title="Luxury CPM Store";
 if(SITE_CONFIG.logoUrl){$("brandLogo").src=SITE_CONFIG.logoUrl;$("brandLogo").classList.remove("hidden");}
 if(SITE_CONFIG.backgroundUrl){document.documentElement.style.setProperty("--site-bg-image",`url("${SITE_CONFIG.backgroundUrl.replace(/"/g,'\\"')}")`);document.body.classList.add("custom-bg");}
+const waSocial=$("waSocial");
+if(waSocial){const n=String(SITE_CONFIG.whatsappNumber||"").replace(/\D/g,"");if(n)waSocial.href=`https://wa.me/${n}`;}
 
 async function loadProducts(){
   try{
