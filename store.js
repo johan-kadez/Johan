@@ -30,7 +30,7 @@ function hidePopup(){$("sitePopup").classList.add("hidden");}
 $("popupClose").onclick=hidePopup;
 $("sitePopup").addEventListener("click",e=>{if(e.target===$("sitePopup"))hidePopup();});
 
-document.title="Johan Apalah Itu";
+document.title="Johan Abrakadabraw";
 if(SITE_CONFIG.logoUrl){$("brandLogo").src=SITE_CONFIG.logoUrl;$("brandLogo").classList.remove("hidden");}
 if(SITE_CONFIG.backgroundUrl){document.documentElement.style.setProperty("--site-bg-image",`url("${SITE_CONFIG.backgroundUrl.replace(/"/g,'\\"')}")`);document.body.classList.add("custom-bg");}
 const waSocial=$("waSocial");
@@ -48,7 +48,7 @@ function render(){
   const q=$("search").value.trim().toLowerCase();
   const list=products.filter(p=>(category==="all"||p.normalizedCategory===category)&&(`${p.name||""} ${p.specification||""} ${p.description||""}`).toLowerCase().includes(q));
   $("grid").innerHTML=list.map(p=>{
-    const image=escapeHtml(p.image||"https://placehold.co/900x700?text=Luxury+CPM");
+    const image=escapeHtml(p.image||"https://placehold.co/900x700?text=Johan+Service");
     const name=escapeHtml(p.name||"");
     const catLabel=p.normalizedCategory==="jasa"?"JASA CPM":p.normalizedCategory==="cpm1"?"CPM 1":"CPM 2";
     const watermark=SITE_CONFIG.logoUrl?`<img class="card-watermark" src="${escapeHtml(SITE_CONFIG.logoUrl)}" alt="">`:"";
