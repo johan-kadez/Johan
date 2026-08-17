@@ -58,13 +58,13 @@ function render(){
   document.querySelectorAll("[data-order]").forEach(btn=>btn.onclick=()=>orderWhatsApp(btn.dataset.order));
 }
 
-function chatWhatsApp(id){
+function OrderWhatsApp(id){
   const p=products.find(x=>x.id===id);
   if(!p)return;
 
   const number="6283129582374";
 
-  const message=`permisi mau order "${p.name||"Produk"}", apakah masih ready?`;
+  const message=`Yo Bitch I wanna order "${p.name||"Produk"}", is it still ready bitch?`;
 
   window.open(
     `https://wa.me/${number}?text=${encodeURIComponent(message)}`,
