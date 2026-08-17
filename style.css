@@ -395,3 +395,9 @@ footer{display:none!important}
  .social-links span{display:block;margin-top:5px}
  .products-section{padding-top:24px}
 }
+
+/* FINAL: social section flows directly into products; floating filter remains centered. */
+.social-section{max-width:1040px;margin:0 auto;padding-top:20px;padding-bottom:42px}
+.products-section{max-width:1040px;margin:0 auto;padding-top:20px}
+@media(min-width:701px){.category-dock-wrap{padding-left:24px;padding-right:24px}.category-dock{width:min(820px,calc(100vw - 48px));margin:0 auto}.category-dock-row{justify-content:center}}
+@media(max-width:700px){.social-section{padding:20px 5% 28px}.products-section{padding:20px 5% 90px}.social-card{margin:0 auto}}

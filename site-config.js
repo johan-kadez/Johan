@@ -6,5 +6,8 @@
 export const SITE_CONFIG = {
   logoUrl: "",
   backgroundUrl: "",
-  whatsappNumber: "6281234567890"
+  whatsappNumber: "6281234567890",
+  telegramUrl: "#",
+  tiktokUrl: "#",
+  youtubeUrl: "#"
 };
