@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Johan Service</title>
+<title>Luxury CPM Store</title>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <header class="site-header">
   <a class="brand" href="/">
     <span class="brand-logo-wrap"><img id="brandLogo" class="brand-logo hidden" alt="Luxury CPM logo"></span>
-    <span>Johan<span>Service</span></span>
+    <span>LUXURY<span>CPM</span></span>
   </a>
   <nav><a href="#products">Produk</a><a href="#categories">Kategori</a></nav>
 </header>
@@ -18,30 +18,42 @@
 <section class="hero">
   <div>
     <p class="eyebrow">CAR PARKING MULTIPLAYER</p>
-    <h1>Good Gem.<br><i>Dibeli Bang.</i></h1>
+    <h1>Premium Cars.<br><i>Premium Service.</i></h1>
     <p>Marketplace eksklusif untuk mobil CPM dan jasa pilihan.</p>
     <a class="gold-btn" href="#products">Jelajahi Store</a>
   </div>
 </section>
 
 <section id="categories" class="section category-section">
-  <div class="section-title"><p class="eyebrow">EXPLORE</p><h2>Kategori</h2></div>
-  <div class="cats" id="categoryBar">
-    <button class="active" data-cat="all">Semua</button>
-    <button data-cat="cpm1">CPM 1</button>
-    <button data-cat="cpm2">CPM 2</button>
-    <button data-cat="jasa">Jasa</button>
+  <div class="section-title">
+    <p class="eyebrow">EXPLORE</p>
+    <h2>Kategori</h2>
+    <p class="category-hint">Pilih kategori atau buka pencarian untuk menemukan produk dengan cepat.</p>
   </div>
 </section>
+
+<!-- Floating category/search dock inspired by Gemini's bottom search UI -->
+<div class="category-dock-wrap" id="categoryDockWrap">
+  <div class="category-dock" id="categoryDock" role="navigation" aria-label="Filter kategori dan pencarian">
+    <div class="category-dock-row">
+      <div class="category-chips" id="categoryBar">
+        <button class="active" data-cat="all" type="button">Semua</button>
+        <button data-cat="cpm1" type="button">CPM 1</button>
+        <button data-cat="cpm2" type="button">CPM 2</button>
+        <button data-cat="jasa" type="button">Jasa</button>
+      </div>
+      <div class="dock-search" id="searchShell">
+        <input id="search" type="search" autocomplete="off" placeholder="Cari produk..." aria-label="Cari produk">
+        <button id="searchToggle" class="search-toggle" type="button" aria-label="Buka pencarian" aria-expanded="false">⌕</button>
+        <button id="clearSearch" class="search-clear hidden" type="button" aria-label="Hapus pencarian">×</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <section id="products" class="section products-section">
   <div class="toolbar">
     <div><p class="eyebrow">COLLECTION</p><h2>Produk pilihan</h2></div>
-    <div class="search-shell" id="searchShell">
-      <input id="search" type="search" autocomplete="off" placeholder="Cari produk..." aria-label="Cari produk">
-      <button id="clearSearch" class="search-clear hidden" type="button" aria-label="Hapus pencarian">×</button>
-      <span class="search-icon" aria-hidden="true">⌕</span>
-    </div>
   </div>
   <div id="grid" class="grid"></div>
 </section>

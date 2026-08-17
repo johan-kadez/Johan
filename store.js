@@ -65,11 +65,33 @@ function orderWhatsApp(id){
 }
 
 document.querySelectorAll("[data-cat]").forEach(btn=>btn.onclick=()=>{category=btn.dataset.cat;document.querySelectorAll("[data-cat]").forEach(x=>x.classList.toggle("active",x===btn));render();});
-const search=$("search"),shell=$("searchShell"),clear=$("clearSearch");
-search.onfocus=()=>shell.classList.add("expanded");
+const search=$("search"),shell=$("searchShell"),clear=$("clearSearch"),searchToggle=$("searchToggle");
+function openSearch(){
+  shell.classList.add("expanded");
+  searchToggle.setAttribute("aria-expanded","true");
+  searchToggle.setAttribute("aria-label","Tutup pencarian");
+  requestAnimationFrame(()=>search.focus({preventScroll:true}));
+}
+function closeSearch(force=false){
+  if(force||!search.value){
+    shell.classList.remove("expanded");
+    searchToggle.setAttribute("aria-expanded","false");
+    searchToggle.setAttribute("aria-label","Buka pencarian");
+    if(force)search.blur();
+  }
+}
+searchToggle.onclick=()=>shell.classList.contains("expanded")?closeSearch(true):openSearch();
+search.onfocus=()=>{shell.classList.add("expanded");searchToggle.setAttribute("aria-expanded","true");};
 search.oninput=()=>{clear.classList.toggle("hidden",!search.value);render();};
-clear.onclick=()=>{search.value="";clear.classList.add("hidden");search.focus();render();};
-search.addEventListener("keydown",e=>{if(e.key==="Escape"){search.value="";clear.classList.add("hidden");render();search.blur();}});
+clear.onclick=()=>{search.value="";clear.classList.add("hidden");openSearch();render();};
+search.addEventListener("keydown",e=>{
+  if(e.key==="Escape"){
+    if(search.value){search.value="";clear.classList.add("hidden");render();}
+    closeSearch(true);
+  }
+});
 
-document.addEventListener("click",e=>{if(!shell.contains(e.target)&&!search.value)shell.classList.remove("expanded");});
+document.addEventListener("click",e=>{
+  if(!shell.contains(e.target)&&!search.value)closeSearch();
+});
 loadProducts();
