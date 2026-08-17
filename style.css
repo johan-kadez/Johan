@@ -259,6 +259,17 @@ footer{display:none!important}
   transition:opacity .12s ease;
 }
 .dock-search.expanded input{opacity:1;pointer-events:auto}
+/* Remove the browser's native search X so there is only one clear button. */
+.dock-search input[type="search"]::-webkit-search-cancel-button,
+.dock-search input[type="search"]::-webkit-search-decoration{
+  -webkit-appearance:none;
+  appearance:none;
+  display:none;
+}
+.dock-search input[type="search"]{
+  -webkit-appearance:none;
+  appearance:none;
+}
 .dock-search input::placeholder{color:#777}
 .dock-search:focus-within{box-shadow:inset 5px 5px 10px #050505,inset -5px -5px 10px #24221c}
 .search-toggle{
@@ -297,6 +308,20 @@ footer{display:none!important}
   box-shadow:none!important;
   touch-action:manipulation;
   -webkit-tap-highlight-color:transparent;
+}
+
+/* Expanded search stays completely inside the floating bar, even on narrow phones. */
+.category-dock{position:relative}
+@media(max-width:700px){
+  .dock-search.expanded{
+    position:absolute;
+    right:7px;
+    top:7px;
+    z-index:8;
+    width:calc(100% - 14px)!important;
+    flex:0 0 auto!important;
+  }
+  .dock-search.expanded input{padding-left:15px!important;padding-right:88px!important}
 }
 
 /* Desktop: give the dock more breathing room, like a wide floating Gemini composer. */
