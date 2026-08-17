@@ -58,7 +58,7 @@ function render(){
   document.querySelectorAll("[data-order]").forEach(btn=>btn.onclick=()=>orderWhatsApp(btn.dataset.order));
 }
 
-function orderwhatsApp(id){
+function orderWhatsApp(id){
   const p=products.find(x=>x.id===id);
   if(!p)return;
 
