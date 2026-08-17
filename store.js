@@ -30,7 +30,7 @@ function hidePopup(){$("sitePopup").classList.add("hidden");}
 $("popupClose").onclick=hidePopup;
 $("sitePopup").addEventListener("click",e=>{if(e.target===$("sitePopup"))hidePopup();});
 
-document.title="Luxury CPM Store";
+document.title="Johan Apalah Itu";
 if(SITE_CONFIG.logoUrl){$("brandLogo").src=SITE_CONFIG.logoUrl;$("brandLogo").classList.remove("hidden");}
 if(SITE_CONFIG.backgroundUrl){document.documentElement.style.setProperty("--site-bg-image",`url("${SITE_CONFIG.backgroundUrl.replace(/"/g,'\\"')}")`);document.body.classList.add("custom-bg");}
 const waSocial=$("waSocial");
