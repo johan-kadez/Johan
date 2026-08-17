@@ -35,10 +35,6 @@ if(SITE_CONFIG.logoUrl){$("brandLogo").src=SITE_CONFIG.logoUrl;$("brandLogo").cl
 if(SITE_CONFIG.backgroundUrl){document.documentElement.style.setProperty("--site-bg-image",`url("${SITE_CONFIG.backgroundUrl.replace(/"/g,'\\"')}")`);document.body.classList.add("custom-bg");}
 const waSocial=$("waSocial");
 if(waSocial){const n=String(SITE_CONFIG.whatsappNumber||"").replace(/\D/g,"");if(n)waSocial.href=`https://wa.me/${n}`;}
-const tgSocial=$("tgSocial"),ttSocial=$("ttSocial"),ytSocial=$("ytSocial");
-if(tgSocial)tgSocial.href=SITE_CONFIG.telegramUrl||"#";
-if(ttSocial)ttSocial.href=SITE_CONFIG.tiktokUrl||"#";
-if(ytSocial)ytSocial.href=SITE_CONFIG.youtubeUrl||"#";
 
 async function loadProducts(){
   try{
