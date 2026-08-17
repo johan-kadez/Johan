@@ -58,12 +58,19 @@ function render(){
   document.querySelectorAll("[data-order]").forEach(btn=>btn.onclick=()=>orderWhatsApp(btn.dataset.order));
 }
 
-function orderWhatsApp(id){
-  const p=products.find(x=>x.id===id);if(!p)return;
-  const number=String(SITE_CONFIG.whatsappNumber||"").replace(/\D/g,"");
-  if(!number){showPopup("WhatsApp belum diatur","Masukkan nomor WhatsApp toko di site-config.js terlebih dahulu.","error");return;}
+function chatWhatsApp(id){
+  const p=products.find(x=>x.id===id);
+  if(!p)return;
+
+  const number="6283129582374";
+
   const message=`permisi mau order "${p.name||"Produk"}", apakah masih ready?`;
-  window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`,"_blank","noopener,noreferrer");
+
+  window.open(
+    `https://wa.me/${number}?text=${encodeURIComponent(message)}`,
+    "_blank",
+    "noopener,noreferrer"
+  );
 }
 
 document.querySelectorAll("[data-cat]").forEach(btn=>btn.onclick=()=>{category=btn.dataset.cat;document.querySelectorAll("[data-cat]").forEach(x=>x.classList.toggle("active",x===btn));render();});
