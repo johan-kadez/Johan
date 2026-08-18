@@ -1,6 +1,6 @@
 import{initializeApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import{getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-import{getFirestore,collection,getDocs,addDoc,deleteDoc,doc,query,orderBy,updateDoc}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import{getFirestore,collection,getDocs,addDoc,deleteDoc,doc,query,orderBy,updateDoc,updateDoc}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 import{firebaseConfig}from"/firebase-config.js";
 import{SITE_CONFIG}from"/site-config.js";
 
@@ -68,33 +68,42 @@ async function loadAdmin(){
   try{
     const snap=await getDocs(collection(db,"products")),cars=[],services=[];
     snap.docs.forEach(d=>{const p={id:d.id,...d.data()};if(p.category==="jasa")services.push(p);else cars.push(p)});
-    $("cars").innerHTML=cars.map(p=>`<tr><td>${escapeHtml(p.name)}</td><td>${p.category==="cpm1"?"CPM 1":"CPM 2"}</td><td>${escapeHtml(p.specification||"-")}</td><td>${priceHtml(p)}</td><td>${p.stock??0}</td><td>${p.active?"Aktif":"Nonaktif"}</td><td class="admin-actions"><button class="admin-edit" data-edit="${escapeHtml(p.id)}">Edit</button><button class="danger" data-delete="${escapeHtml(p.id)}">Hapus</button></td></tr>`).join("")||"<tr><td colspan='7'>Belum ada mobil.</td></tr>";
-    $("services").innerHTML=services.map(p=>`<tr><td>${escapeHtml(p.name)}</td><td>${escapeHtml(p.description||"-")}</td><td>${priceHtml(p)}</td><td>${p.active?"Aktif":"Nonaktif"}</td><td class="admin-actions"><button class="admin-edit" data-edit="${escapeHtml(p.id)}">Edit</button><button class="danger" data-delete="${escapeHtml(p.id)}">Hapus</button></td></tr>`).join("")||"<tr><td colspan='5'>Belum ada jasa.</td></tr>";
+    $("cars").innerHTML=cars.map(p=>`<tr><td>${escapeHtml(p.name)}</td><td>${p.category==="cpm1"?"CPM 1":"CPM 2"}</td><td>${escapeHtml(p.specification||"-")}</td><td>${priceHtml(p)}</td><td>${p.stock??0}</td><td>${p.active?"Aktif":"Nonaktif"}</td><td class="admin-actions"><button class="admin-edit" data-edit="${escapeHtml(p.id)}">Edit</button><button type="button" class="admin-edit" data-edit="${escapeHtml(p.id)}">Edit</button><button class="danger" data-delete="${escapeHtml(p.id)}">Hapus</button></td></tr>`).join("")||"<tr><td colspan='7'>Belum ada mobil.</td></tr>";
+    $("services").innerHTML=services.map(p=>`<tr><td>${escapeHtml(p.name)}</td><td>${escapeHtml(p.description||"-")}</td><td>${priceHtml(p)}</td><td>${p.active?"Aktif":"Nonaktif"}</td><td class="admin-actions"><button class="admin-edit" data-edit="${escapeHtml(p.id)}">Edit</button><button type="button" class="admin-edit" data-edit="${escapeHtml(p.id)}">Edit</button><button class="danger" data-delete="${escapeHtml(p.id)}">Hapus</button></td></tr>`).join("")||"<tr><td colspan='5'>Belum ada jasa.</td></tr>";
 
     document.querySelectorAll("[data-edit]").forEach(btn=>btn.onclick=()=>{
       const p=[...cars,...services].find(x=>x.id===btn.dataset.edit);
       if(p)startEdit(p);
     });
-    document.querySelectorAll("[data-delete]").forEach(btn=>btn.onclick=()=>showPopup("Hapus produk?","Produk ini akan dihapus dari katalog.","error",{text:"Hapus",fn:async()=>{try{await deleteDoc(doc(db,"products",btn.dataset.delete));showPopup("Berhasil","Produk telah dihapus.","success");loadAdmin()}catch(err){console.error(err);showPopup("Gagal menghapus","Periksa Firestore Rules lalu coba lagi.","error")}}}));
+    document.querySelectorAll("[data-edit]").forEach(btn=>btn.onclick=()=>{
+ const p=[...cars,...services].find(x=>x.id===btn.dataset.edit); if(!p)return;
+ if(p.category==="jasa"){
+  $("serviceForm").classList.remove("hidden");$("carForm").classList.add("hidden");
+  $("serviceName").value=p.name||"";$("serviceImage").value=p.image||"";$("serviceDescription").value=p.description||"";
+  $("servicePrice").value=p.price??"";$("serviceActive").value=String(!!p.active);
+  $("serviceForm").dataset.editId=p.id;$("serviceForm").querySelector("button.gold-btn").textContent="Update Jasa";
+ }else{
+  $("carForm").classList.remove("hidden");$("serviceForm").classList.add("hidden");
+  $("carName").value=p.name||"";$("carCategory").value=p.category||"cpm1";$("carSpec").value=p.specification||"";
+  $("carPrice").value=p.price??"";$("carStock").value=p.stock??0;$("carImage").value=p.image||"";
+  $("carActive").value=String(!!p.active);$("carForm").dataset.editId=p.id;$("carForm").querySelector("button.gold-btn").textContent="Update Mobil";
+ }
+ window.scrollTo({top:0,behavior:"smooth"});
+});
+document.querySelectorAll("[data-delete]").forEach(btn=>btn.onclick=()=>showPopup("Hapus produk?","Produk ini akan dihapus dari katalog.","error",{text:"Hapus",fn:async()=>{try{await deleteDoc(doc(db,"products",btn.dataset.delete));showPopup("Berhasil","Produk telah dihapus.","success");loadAdmin()}catch(err){console.error(err);showPopup("Gagal menghapus","Periksa Firestore Rules lalu coba lagi.","error")}}}));
     const orderSnap=await getDocs(query(collection(db,"orders"),orderBy("createdAt","desc")));
     $("orders").innerHTML=orderSnap.docs.map(d=>{const o=d.data(),item=o.items?.[0];return `<tr><td>${escapeHtml(o.customerName)}</td><td>${escapeHtml(o.phone)}</td><td>${escapeHtml(item?.name||"-")}</td><td>${escapeHtml(o.status||"Baru")}</td></tr>`}).join("")||"<tr><td colspan='4'>Belum ada pesanan.</td></tr>";
   }catch(err){console.error(err);showPopup("Gagal memuat data","Periksa Firestore Rules dan konfigurasi Firebase.","error")}
 }
 
-$("carForm").onsubmit=async e=>{
-  e.preventDefault();
-  try{
-    const data={name:$("carName").value,category:$("carCategory").value,specification:$("carSpec").value,price:Number($("carPrice").value),discountPrice:Number($("carDiscountPrice").value)||0,stock:Number($("carStock").value),image:$("carImage").value.trim(),active:$("carActive").value==="true",type:"car"};
+$("carForm").onsubmit=async e=>{e.preventDefault();try{const id=e.target.dataset.editId;const data={name:$("carName").value,category:$("carCategory").value,specification:$("carSpec").value,price:Number($("carPrice").value),stock:Number($("carStock").value),image:$("carImage").value.trim(),active:$("carActive").value==="true",type:"car"};if(id)await updateDoc(doc(db,"products",id),data);else await addDoc(collection(db,"products"),{...data,createdAt:new Date().toISOString()});delete e.target.dataset.editId;e.target.reset();e.target.querySelector("button.gold-btn").textContent="Simpan Mobil";await loadAdmin();showPopup("Berhasil",id?"Mobil berhasil diperbarui":"Mobil berhasil ditambahkan","success")}catch(err){console.error(err);showPopup("Gagal menyimpan mobil","Periksa Firestore Rules.","error")}};
     if(data.discountPrice>0&&data.discountPrice>=data.price)throw new Error("Harga diskon harus lebih kecil dari harga normal.");
     const wasEdit=!!editingId&&editingType==="car"; if(wasEdit)await updateDoc(doc(db,"products",editingId),data); else await addDoc(collection(db,"products"),{...data,createdAt:new Date().toISOString()});
     resetCar();await loadAdmin();showPopup("Berhasil",wasEdit?"Mobil berhasil diperbarui":"Mobil berhasil ditambahkan","success");
   }catch(err){console.error(err);showPopup("Gagal menyimpan mobil",err.message||"Periksa Firestore Rules.","error")}
 };
 
-$("serviceForm").onsubmit=async e=>{
-  e.preventDefault();
-  try{
-    const data={name:$("serviceName").value,category:"jasa",description:$("serviceDescription").value,price:$("servicePrice").value?Number($("servicePrice").value):0,discountPrice:Number($("serviceDiscountPrice").value)||0,image:$("serviceImage").value.trim(),active:$("serviceActive").value==="true",type:"service"};
+$("serviceForm").onsubmit=async e=>{e.preventDefault();try{const id=e.target.dataset.editId;const data={name:$("serviceName").value,category:"jasa",description:$("serviceDescription").value,price:$("servicePrice").value?Number($("servicePrice").value):0,image:$("serviceImage").value.trim(),active:$("serviceActive").value==="true",type:"service"};if(id)await updateDoc(doc(db,"products",id),data);else await addDoc(collection(db,"products"),{...data,createdAt:new Date().toISOString()});delete e.target.dataset.editId;e.target.reset();e.target.querySelector("button.gold-btn").textContent="Simpan Jasa";await loadAdmin();showPopup("Berhasil",id?"Jasa berhasil diperbarui":"Jasa berhasil ditambahkan","success")}catch(err){console.error(err);showPopup("Gagal menyimpan jasa","Periksa Firestore Rules.","error")}};
     if(data.discountPrice>0&&data.price>0&&data.discountPrice>=data.price)throw new Error("Harga diskon harus lebih kecil dari harga normal.");
     const wasEdit=!!editingId&&editingType==="service"; if(wasEdit)await updateDoc(doc(db,"products",editingId),data); else await addDoc(collection(db,"products"),{...data,createdAt:new Date().toISOString()});
     resetService();await loadAdmin();showPopup("Berhasil",wasEdit?"Jasa berhasil diperbarui":"Jasa berhasil ditambahkan","success");
