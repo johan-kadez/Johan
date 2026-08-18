@@ -9,28 +9,28 @@
 <body class="admin-page">
 <header class="site-header">
   <a class="brand" href="/">
-    <span class="brand-logo-wrap">
-      <img id="brandLogo" src="https://i.imgur.com/RSHWPkm.png" alt="Logo">
-    </span>
+    <span class="brand-logo-wrap"><img id="brandLogo" src="https://i.imgur.com/RSHWPkm.png" alt="Logo"></span>
     <span>Johan<span> Service</span></span>
   </a>
   <nav><a href="/">Store</a><button id="logout" class="hidden">Logout</button></nav>
 </header>
 <main class="admin-main">
-  <div id="login" class="login panel">
-    <p class="eyebrow">No No yaaaa</p><h1>etmin only</h1>
-    <form id="loginForm"><input id="email" type="email" required placeholder="Email admin"><input id="password" type="password" required placeholder="Password"><button class="gold-btn">Login</button></form>
-  </div>
+  <div id="login" class="login panel"><p class="eyebrow">No No yaaaa</p><h1>etmin only</h1><form id="loginForm"><input id="email" type="email" required placeholder="Email admin"><input id="password" type="password" required placeholder="Password"><button class="gold-btn">Login</button></form></div>
   <div id="adminPanel" class="hidden">
     <h1>Dashboard</h1>
     <div class="panel">
-      <div class="admin-tabs"><button class="admin-tab active" data-form="carForm">Tambah Mobil</button><button class="admin-tab" data-form="serviceForm">Tambah Jasa</button></div>
+      <div class="admin-tabs"><button type="button" class="admin-tab active" data-form="carForm">Tambah Mobil</button><button type="button" class="admin-tab" data-form="serviceForm">Tambah Jasa</button></div>
       <form id="carForm" class="admin-form">
         <input id="carName" required placeholder="Nama Mobil"><select id="carCategory" required><option value="cpm1">CPM 1</option><option value="cpm2">CPM 2</option></select>
-        <textarea id="carSpec" required placeholder="Specification"></textarea><input id="carPrice" type="number" min="0" required placeholder="Harga Normal"><input id="carDiscountPrice" type="number" min="0" placeholder="Harga Setelah Diskon (opsional)"><input id="carStock" type="number" min="0" required placeholder="Stok">
-        <div id="carImages" class="image-fields"><input class="product-image-input" data-image-type="car" placeholder="URL/path gambar dari imgur"></div><select id="carActive"><option value="true">Aktif</option><option value="false">Nonaktif</option></select><button id="carSubmit" class="gold-btn">Simpan Mobil</button><button id="carCancelEdit" type="button" class="admin-tab hidden">Batal Edit</button>
+        <textarea id="carSpec" required placeholder="Specification"></textarea><input id="carPrice" type="number" min="0" required placeholder="Harga normal"><input id="carDiscountPrice" type="number" min="0" placeholder="Harga diskon (opsional)"><input id="carStock" type="number" min="0" required placeholder="Stok">
+        <div class="image-input-block"><label>Foto produk</label><div id="carImages" class="image-input-list"></div><button type="button" class="image-add-btn" data-add-images="carImages">+ Tambah URL foto</button><small>Foto pertama menjadi foto utama. Tekan Enter/Done pada URL untuk membuat kolom berikutnya. Tidak ada batas jumlah foto.</small></div>
+        <select id="carActive"><option value="true">Aktif</option><option value="false">Nonaktif</option></select><div class="form-actions"><button type="button" id="carCancelEdit" class="admin-tab hidden">Batal Edit</button><button class="gold-btn" id="carSubmit">Simpan Mobil</button></div>
       </form>
-      <form id="serviceForm" class="admin-form hidden"><input id="serviceName" required placeholder="Nama Jasa"><div id="serviceImages" class="image-fields"><input class="product-image-input" data-image-type="service" placeholder="URL/path gambar dari imgur"></div><textarea id="serviceDescription" required placeholder="Deskripsi jasa"></textarea><input id="servicePrice" type="number" min="0" placeholder="Harga Normal (opsional)"><input id="serviceDiscountPrice" type="number" min="0" placeholder="Harga Setelah Diskon (opsional)"><select id="serviceActive"><option value="true">Aktif</option><option value="false">Nonaktif</option></select><button id="serviceSubmit" class="gold-btn">Simpan Jasa</button><button id="serviceCancelEdit" type="button" class="admin-tab hidden">Batal Edit</button></form>
+      <form id="serviceForm" class="admin-form hidden">
+        <input id="serviceName" required placeholder="Nama Jasa"><textarea id="serviceDescription" required placeholder="Deskripsi jasa"></textarea><input id="servicePrice" type="number" min="0" placeholder="Harga normal (opsional)"><input id="serviceDiscountPrice" type="number" min="0" placeholder="Harga diskon (opsional)">
+        <div class="image-input-block"><label>Foto jasa</label><div id="serviceImages" class="image-input-list"></div><button type="button" class="image-add-btn" data-add-images="serviceImages">+ Tambah URL foto</button><small>Foto pertama menjadi foto utama. Tekan Enter/Done pada URL untuk membuat kolom berikutnya. Tidak ada batas jumlah foto.</small></div>
+        <select id="serviceActive"><option value="true">Aktif</option><option value="false">Nonaktif</option></select><div class="form-actions"><button type="button" id="serviceCancelEdit" class="admin-tab hidden">Batal Edit</button><button class="gold-btn" id="serviceSubmit">Simpan Jasa</button></div>
+      </form>
     </div>
     <div class="panel"><p class="eyebrow">CATALOG</p><h2>Mobil</h2><div class="table-wrap"><table><thead><tr><th>Nama Mobil</th><th>Kategori</th><th>Specification</th><th>Harga</th><th>Stok</th><th>Status</th><th></th></tr></thead><tbody id="cars"></tbody></table></div></div>
     <div class="panel"><p class="eyebrow">SERVICE</p><h2>Jasa</h2><div class="table-wrap"><table><thead><tr><th>Nama Jasa</th><th>Deskripsi</th><th>Harga</th><th>Status</th><th></th></tr></thead><tbody id="services"></tbody></table></div></div>
@@ -38,43 +38,6 @@
   </div>
 </main>
 <div id="sitePopup" class="site-popup hidden" role="dialog" aria-modal="true" aria-live="polite"><div class="popup-card"><button id="popupClose" class="popup-close" type="button">×</button><div class="popup-icon" id="popupIcon">i</div><p class="eyebrow" id="popupEyebrow">NOTICE</p><h3 id="popupTitle">Pemberitahuan</h3><p id="popupMessage"></p><button id="popupAction" class="gold-btn popup-action hidden" type="button">OK</button></div></div>
-<style>
-/* ===== ADMIN CUSTOM DROPDOWNS — MATCH INDEX POPUP ===== */
-.admin-select-native{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;appearance:none!important;-webkit-appearance:none!important}
-.admin-select-wrap{position:relative;width:100%}
-.admin-select-trigger{width:100%;min-height:48px;padding:13px 44px 13px 15px;border:0;border-radius:11px;background:#11110f;color:#f4f1e9;text-align:left;font:inherit;cursor:pointer;position:relative;box-shadow:inset 5px 5px 10px #050505,inset -5px -5px 10px #22201b;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-.admin-select-trigger::after{content:"⌄";position:absolute;right:15px;top:50%;transform:translateY(-55%);color:#aaa;font-size:22px;pointer-events:none}
-.admin-select-trigger:active{box-shadow:inset 4px 4px 9px #050505,inset -4px -4px 9px #242016}
-.admin-choice-popup{position:fixed;inset:0;z-index:3000;display:grid;place-items:center;padding:18px;background:#000b;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.admin-choice-card{position:relative;width:min(430px,100%);max-height:min(78vh,520px);overflow:auto;padding:22px;border-radius:25px;background:#11110f;border:1px solid #252219;box-shadow:18px 18px 38px #020202,-12px -12px 28px #24221d}
-.admin-choice-close{position:absolute;right:14px;top:11px;width:36px;height:36px;border:0;border-radius:12px;background:#11110f;color:#aaa;font-size:25px;cursor:pointer;box-shadow:5px 5px 10px #050505,-4px -4px 9px #201e19}
-.admin-choice-eyebrow{color:#c9a45b;font-size:11px;letter-spacing:4px;font-weight:800;margin:5px 0 8px}
-.admin-choice-title{margin:0 45px 18px 0;color:#f4f1e9;font:700 29px Georgia,serif}
-.admin-choice-options{display:grid;gap:10px}
-.admin-choice-option{width:100%;padding:15px 17px;border:1px solid #29261f;border-radius:15px;background:#0e0e0c;color:#eee8dd;text-align:left;font:700 15px Arial,sans-serif;cursor:pointer;box-shadow:5px 5px 10px #050505,-4px -4px 9px #1d1c18;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-.admin-choice-option:hover,.admin-choice-option.selected{color:#c9a45b;border-color:#c9a45b;background:#15130f;box-shadow:inset 4px 4px 9px #060606,inset -4px -4px 9px #242016}
-.admin-choice-option:active{transform:scale(.985)}
-body.admin-choice-open{overflow:hidden}
-</style>
-<script>
-(function(){
-function closeChoice(){var old=document.querySelector('.admin-choice-popup');if(old)old.remove();document.body.classList.remove('admin-choice-open')}
-function openChoice(select){
- closeChoice();
- var overlay=document.createElement('div');overlay.className='admin-choice-popup';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');
- var card=document.createElement('div');card.className='admin-choice-card';
- var close=document.createElement('button');close.type='button';close.className='admin-choice-close';close.textContent='×';close.onclick=closeChoice;
- var eyebrow=document.createElement('p');eyebrow.className='admin-choice-eyebrow';eyebrow.textContent=select.id==='carCategory'?'CATEGORY':'STATUS';
- var title=document.createElement('h3');title.className='admin-choice-title';title.textContent=select.id==='carCategory'?'Pilih Kategori':'Pilih Status';
- var options=document.createElement('div');options.className='admin-choice-options';
- Array.from(select.options).forEach(function(opt){var btn=document.createElement('button');btn.type='button';btn.className='admin-choice-option'+(opt.value===select.value?' selected':'');btn.textContent=opt.textContent;btn.onclick=function(){select.value=opt.value;select.dispatchEvent(new Event('change',{bubbles:true}));closeChoice()};options.appendChild(btn)});
- card.append(close,eyebrow,title,options);overlay.appendChild(card);document.body.appendChild(overlay);document.body.classList.add('admin-choice-open');overlay.onclick=function(e){if(e.target===overlay)closeChoice()}
-}
-function init(){document.querySelectorAll('select#carCategory,select#carActive,select#serviceActive').forEach(function(select){if(select.dataset.customReady)return;select.dataset.customReady='1';select.classList.add('admin-select-native');var wrap=document.createElement('div');wrap.className='admin-select-wrap';select.parentNode.insertBefore(wrap,select);wrap.appendChild(select);var trigger=document.createElement('button');trigger.type='button';trigger.className='admin-select-trigger';wrap.appendChild(trigger);function sync(){trigger.textContent=select.options[select.selectedIndex]?.textContent||'Pilih...'}sync();trigger.onclick=function(){openChoice(select)};select.addEventListener('change',sync)})}
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeChoice()});if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();
-</script>
-
 <script type="module" src="/admin.js"></script>
 </body>
 </html>
