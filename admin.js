@@ -168,145 +168,118 @@ function ensureDiscountField(formId, priceId, discountId, label) {
    ========================================================= */
 
 function setupImageManager(formId, firstInputId, managerId) {
-  const form = $(formId);
-  const firstInput = $(firstInputId);
+  const form = document.getElementById(formId);
+  const original = document.getElementById(firstInputId);
 
-  if (!form || !firstInput) return null;
+  if (!form || !original) return null;
 
-  let manager = $(managerId);
+  // Jangan pindahkan input asli.
+  // Sembunyikan saja dan buat input URL baru yang benar-benar terlihat.
+  original.style.display = "none";
+
+  let manager = document.getElementById(managerId);
 
   if (!manager) {
     manager = document.createElement("div");
     manager.id = managerId;
     manager.className = "multi-image-manager";
 
-    firstInput.parentNode.insertBefore(manager, firstInput);
-    manager.appendChild(firstInput);
-
-    const title = document.createElement("div");
-    title.className = "image-manager-title";
-    title.textContent = "Foto Produk";
-
-    manager.insertBefore(title, firstInput);
-
-    const hint = document.createElement("small");
-    hint.className = "image-manager-hint";
-    hint.textContent =
-      "Masukkan URL gambar. Tekan Enter / Done untuk menambah kolom foto berikutnya.";
-
-    manager.appendChild(hint);
+    original.insertAdjacentElement("afterend", manager);
   }
 
-  function styleInput(input) {
-    input.classList.add("image-url-input");
-    input.autocomplete = "off";
-    input.type = "url";
-  }
+  manager.innerHTML = "";
 
-  function addInput(value = "") {
+  const title = document.createElement("div");
+  title.textContent = "Foto produk";
+  title.style.cssText =
+    "font-weight:800;color:#c9a45b;font-size:16px;margin:8px 0 12px";
+
+  const hint = document.createElement("div");
+  hint.textContent =
+    "Foto pertama menjadi foto utama. Tekan Enter/Done untuk membuat kolom berikutnya. Tidak ada batas jumlah foto.";
+  hint.style.cssText =
+    "color:#888;line-height:1.7;margin:10px 0 18px";
+
+  const inputsBox = document.createElement("div");
+  inputsBox.className = "image-inputs";
+
+  const addButton = document.createElement("button");
+  addButton.type = "button";
+  addButton.textContent = "+ Tambah URL foto";
+  addButton.style.cssText =
+    "width:100%;padding:14px;border:0;border-radius:12px;background:#11110f;color:#c9a45b;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px";
+
+  manager.appendChild(title);
+  manager.appendChild(inputsBox);
+  manager.appendChild(addButton);
+  manager.appendChild(hint);
+
+  function createInput(value = "") {
     const input = document.createElement("input");
 
     input.type = "url";
-    input.className = "image-url-input";
-    input.placeholder = "URL/path gambar tambahan";
     input.value = value;
-    input.autocomplete = "off";
+    input.placeholder = "URL/path gambar dari imgur";
 
-    manager.insertBefore(
-      input,
-      manager.querySelector(".image-add-row")
-    );
+    // Paksa tampil meskipun CSS lama bermasalah.
+    input.style.cssText =
+      "display:block!important;width:100%!important;box-sizing:border-box!important;margin:0 0 12px!important;padding:13px!important;background:#11110f!important;color:#fff!important;border:1px solid #302c24!important;border-radius:11px!important;font:inherit!important;min-height:48px!important;opacity:1!important;visibility:visible!important;";
 
-    attachEvents(input);
-
-    setTimeout(() => input.focus(), 30);
-
-    return input;
-  }
-
-  function attachEvents(input) {
-    styleInput(input);
+    inputsBox.appendChild(input);
 
     input.addEventListener("keydown", e => {
       if (e.key === "Enter") {
         e.preventDefault();
 
         if (input.value.trim()) {
-          addInput();
+          createInput();
         }
       }
     });
-  }
 
-  styleInput(firstInput);
-  attachEvents(firstInput);
-
-  function clearExtraInputs() {
-    manager
-      .querySelectorAll(".image-url-input")
-      .forEach((input, index) => {
-        if (index > 0) input.remove();
-      });
-  }
-
-  function setImages(images) {
-    clearExtraInputs();
-
-    const list = Array.isArray(images)
-      ? images.map(x => String(x || "").trim()).filter(Boolean)
-      : [];
-
-    firstInput.value = list[0] || "";
-
-    list.slice(1).forEach(url => {
-      const input = document.createElement("input");
-
-      input.type = "url";
-      input.className = "image-url-input";
-      input.placeholder = "URL/path gambar tambahan";
-      input.value = url;
-      input.autocomplete = "off";
-
-      manager.insertBefore(
-        input,
-        manager.querySelector(".image-add-row")
-      );
-
-      attachEvents(input);
-    });
+    return input;
   }
 
   function getImages() {
-    return [...manager.querySelectorAll(".image-url-input")]
+    return [...inputsBox.querySelectorAll("input")]
       .map(input => input.value.trim())
       .filter(Boolean);
   }
 
+  function setImages(images) {
+    inputsBox.innerHTML = "";
+
+    const list = Array.isArray(images)
+      ? images.filter(x => String(x).trim())
+      : [];
+
+    if (list.length === 0) {
+      createInput();
+      return;
+    }
+
+    list.forEach(url => createInput(String(url)));
+  }
+
   function resetImages() {
-    clearExtraInputs();
-    firstInput.value = "";
+    inputsBox.innerHTML = "";
+    original.value = "";
+    createInput();
   }
 
-  if (!manager.querySelector(".image-add-row")) {
-    const addRow = document.createElement("div");
-    addRow.className = "image-add-row";
+  addButton.addEventListener("click", () => {
+    const input = createInput();
+    input.focus();
+  });
 
-    const addButton = document.createElement("button");
-    addButton.type = "button";
-    addButton.className = "admin-image-add";
-    addButton.textContent = "+ Tambah Foto";
-
-    addButton.onclick = () => addInput();
-
-    addRow.appendChild(addButton);
-    manager.appendChild(addRow);
-  }
+  // Selalu mulai dengan minimal 1 kolom URL.
+  createInput();
 
   return {
     getImages,
     setImages,
     resetImages,
-    addInput
+    addInput: createInput
   };
 }
 
