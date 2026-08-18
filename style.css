@@ -487,23 +487,29 @@ footer{display:none!important}
   z-index: 2 !important;
 }
 
-#brandLogo{
-  width:42px !important;
-  height:42px !important;
-  object-fit:contain !important;
-  display:block !important;
-  background:transparent !important;
-  box-shadow:none !important;
+
+/* FIX LOGO ADMIN */
+.admin-page .brand-logo-wrap {
+  width: 42px !important;
+  height: 42px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 10px !important;
 }
 
-
-.brand-logo-wrap{
-  width:42px !important;
-  height:42px !important;
-  border-radius:10px;
-  overflow:hidden;
-  display:grid;
-  place-items:center;
-  background:transparent !important;
-  box-shadow:none !important;
+.admin-page #brandLogo {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  display: block !important;
+  object-fit: contain !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
