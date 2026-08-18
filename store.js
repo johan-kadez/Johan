@@ -44,6 +44,17 @@ async function loadProducts(){
   }catch(e){console.error(e);$("grid").innerHTML="<p class='empty-state'>Gagal memuat produk. Periksa konfigurasi Firebase.</p>";}
 }
 
+function productImages(p){
+  const list=[];
+  if(p.image) list.push(String(p.image));
+  if(Array.isArray(p.images)) p.images.forEach(x=>{if(x&&!list.includes(String(x)))list.push(String(x));});
+  return list.length?list:["https://placehold.co/900x700?text=Johan+Service"];
+}
+function priceMarkup(p){
+  const normal=Number(p.price)||0, sale=Number(p.discountPrice)||0;
+  if(sale>0&&normal>0&&sale<normal)return `<span class="price-old">${rupiah(normal)}</span><span class="price-new">${rupiah(sale)}</span>`;
+  return normal?`<span class="price-new">${rupiah(normal)}</span>`:"";
+}
 function render(){
   const q=$("search").value.trim().toLowerCase();
   const list=products.filter(p=>(category==="all"||p.normalizedCategory===category)&&(`${p.name||""} ${p.specification||""} ${p.description||""}`).toLowerCase().includes(q));
@@ -52,28 +63,57 @@ function render(){
     const name=escapeHtml(p.name||"");
     const catLabel=p.normalizedCategory==="jasa"?"JASA CPM":p.normalizedCategory==="cpm1"?"CPM 1":"CPM 2";
     const watermark=SITE_CONFIG.logoUrl?`<img class="card-watermark" src="${escapeHtml(SITE_CONFIG.logoUrl)}" alt="">`:"";
-    const normalPrice=Number(p.price)||0,discountPrice=Number(p.discountPrice)||0;
-    const displayPrice=(discountPrice>0&&normalPrice>0&&discountPrice<normalPrice)?`<span class="price-old">${rupiah(normalPrice)}</span><span class="price-new">${rupiah(discountPrice)}</span>`:(normalPrice?`<span class="price-new">${rupiah(normalPrice)}</span>`:"");
-    if(p.normalizedCategory==="jasa")return `<article class="product-card service-card"><div class="image-wrap"><img src="${image}" alt="${name}" loading="lazy"></div><div class="body"><div class="meta-row"><span class="tag">${catLabel}</span>${watermark}</div><h3>${name||"Jasa CPM"}</h3><p class="description">${escapeHtml(p.description||"")}</p>${displayPrice?`<p class="price">${displayPrice}</p>`:""}<button class="add" data-order="${escapeHtml(p.id)}">Pesan Jasa</button></div></article>`;
-    return `<article class="product-card card"><div class="image-wrap"><img src="${image}" alt="${name}" loading="lazy"></div><div class="body"><div class="meta-row"><span class="tag">${catLabel}</span>${watermark}</div><h3>${name}</h3><p class="spec">${escapeHtml(p.specification||"Specification belum tersedia.")}</p><p class="price">${displayPrice}</p><p class="stock">${Number(p.stock)>0?"Tersedia":"Stok habis"}</p><button class="add" data-order="${escapeHtml(p.id)}" ${Number(p.stock)>0?"":"disabled"}>Pesan</button></div></article>`;
+    const displayPrice=priceMarkup(p);
+    return `<article class="product-card ${p.normalizedCategory==="jasa"?"service-card":"card"}"><div class="image-wrap"><img src="${image}" alt="${name}" loading="lazy"></div><div class="body"><div class="meta-row"><span class="tag">${catLabel}</span>${watermark}</div><h3>${name||"Jasa CPM"}</h3>${p.normalizedCategory==="jasa"?`<p class="description">${escapeHtml(p.description||"")}</p>`:`<p class="spec">${escapeHtml(p.specification||"Specification belum tersedia.")}</p>`}${displayPrice?`<p class="price">${displayPrice}</p>`:""}${p.normalizedCategory!=="jasa"?`<p class="stock">${Number(p.stock)>0?"Tersedia":"Stok habis"}</p>`:""}<button class="add" data-view="${escapeHtml(p.id)}" type="button">Lihat</button></div></article>`;
   }).join("")||"<p class='empty-state'>Belum ada produk di kategori ini.</p>";
-  document.querySelectorAll("[data-order]").forEach(btn=>btn.onclick=()=>orderWhatsApp(btn.dataset.order));
+  document.querySelectorAll("[data-view]").forEach(btn=>btn.onclick=()=>openProductDetail(btn.dataset.view));
 }
 
+let detailProduct=null,detailIndex=0;
+function openProductDetail(id){
+  const p=products.find(x=>x.id===id); if(!p)return;
+  detailProduct=p; detailIndex=0; renderProductDetail();
+  $("productDetailPopup").classList.remove("hidden");
+  document.body.classList.add("product-detail-open");
+}
+function closeProductDetail(){ $("productDetailPopup").classList.add("hidden"); document.body.classList.remove("product-detail-open"); detailProduct=null; }
+function renderProductDetail(){
+  if(!detailProduct)return;
+  const p=detailProduct, imgs=productImages(p);
+  detailIndex=Math.max(0,Math.min(detailIndex,imgs.length-1));
+  $("detailImage").src=imgs[detailIndex];
+  $("detailImage").alt=p.name||"Foto produk";
+  $("detailCategory").textContent=p.normalizedCategory==="jasa"?"JASA CPM":p.normalizedCategory==="cpm1"?"CPM 1":"CPM 2";
+  $("detailName").textContent=p.name||"Produk";
+  $("detailSpec").textContent=p.specification||"";
+  $("detailSpec").classList.toggle("hidden",!p.specification);
+  $("detailDescription").textContent=p.description||"";
+  $("detailDescription").classList.toggle("hidden",!p.description);
+  $("detailPrice").innerHTML=priceMarkup(p);
+  $("detailPrice").classList.toggle("hidden",!(Number(p.price)||Number(p.discountPrice)));
+  $("detailStock").textContent=p.normalizedCategory==="jasa"?"":"Stok: "+(Number(p.stock)>0?"Tersedia":"Habis");
+  $("detailOrder").textContent=p.normalizedCategory==="jasa"?"Pesan Jasa":"Pesan";
+  $("detailOrder").disabled=p.normalizedCategory!=="jasa"&&Number(p.stock)<=0;
+  $("galleryDots").innerHTML=imgs.map((_,i)=>`<button type="button" class="gallery-dot${i===detailIndex?" active":""}" data-dot="${i}" aria-label="Foto ${i+1}"></button>`).join("");
+  $("galleryPrev").classList.toggle("hidden",imgs.length<2); $("galleryNext").classList.toggle("hidden",imgs.length<2);
+  document.querySelectorAll("[data-dot]").forEach(b=>b.onclick=()=>{detailIndex=Number(b.dataset.dot);renderProductDetail()});
+}
+function changeGallery(dir){if(!detailProduct)return;const imgs=productImages(detailProduct);if(imgs.length<2)return;detailIndex=(detailIndex+dir+imgs.length)%imgs.length;renderProductDetail();}
+$("productDetailClose").onclick=closeProductDetail;
+$("galleryPrev").onclick=()=>changeGallery(-1); $("galleryNext").onclick=()=>changeGallery(1);
+$("detailOrder").onclick=()=>{if(detailProduct)orderWhatsApp(detailProduct.id)};
+$("productDetailPopup").addEventListener("click",e=>{if(e.target===$("productDetailPopup"))closeProductDetail()});
+let touchX=0;
+$("detailImage").addEventListener("touchstart",e=>{touchX=e.touches[0].clientX},{passive:true});
+$("detailImage").addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-touchX;if(Math.abs(dx)>45)changeGallery(dx<0?1:-1)},{passive:true});
+document.addEventListener("keydown",e=>{if($("productDetailPopup")&&!$("productDetailPopup").classList.contains("hidden")){if(e.key==="Escape")closeProductDetail();if(e.key==="ArrowLeft")changeGallery(-1);if(e.key==="ArrowRight")changeGallery(1)}});
+
 function orderWhatsApp(id){
-  const p=products.find(x=>x.id===id);
-  if(!p)return;
-
+  const p=products.find(x=>x.id===id); if(!p)return;
   const number="6283129582374";
-
   const finalPrice=(Number(p.discountPrice)>0&&Number(p.price)>0&&Number(p.discountPrice)<Number(p.price))?p.discountPrice:p.price;
   const message=`permisi mau order "${p.name||"Produk"}", harga ${rupiah(finalPrice)}, apakah masih ready?`;
-
-  window.open(
-    `https://wa.me/${number}?text=${encodeURIComponent(message)}`,
-    "_blank",
-    "noopener,noreferrer"
-  );
+  window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`,"_blank","noopener,noreferrer");
 }
 
 document.querySelectorAll("[data-cat]").forEach(btn=>btn.onclick=()=>{category=btn.dataset.cat;document.querySelectorAll("[data-cat]").forEach(x=>x.classList.toggle("active",x===btn));render();});
