@@ -1,7 +1,4 @@
-import {
-  initializeApp
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -38,84 +35,82 @@ const rupiah = n =>
   }).format(Number(n) || 0);
 
 function escapeHtml(value) {
-  return String(value ?? "").replace(
-    /[&<>'"]/g,
-    c => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      "'": "&#39;",
-      '"': "&quot;"
-    }[c])
-  );
+  return String(value ?? "").replace(/[&<>'"]/g, c => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "'": "&#39;",
+    '"': "&quot;"
+  }[c]));
 }
 
-/* =========================================================
+function priceHtml(p) {
+  const normal = Number(p.price) || 0;
+  const discount = Number(p.discountPrice) || 0;
+
+  if (discount > 0 && normal > 0 && discount < normal) {
+    return `
+      <span class="price-old">${rupiah(normal)}</span>
+      <span class="price-new">${rupiah(discount)}</span>
+    `;
+  }
+
+  return normal
+    ? `<span class="price-new">${rupiah(normal)}</span>`
+    : "-";
+}
+
+
+/* =========================
    POPUP
-========================================================= */
+========================= */
 
 function showPopup(title, message, type = "info", action = null) {
-  const titleEl = $("popupTitle");
-  const messageEl = $("popupMessage");
-  const iconEl = $("popupIcon");
-  const eyebrowEl = $("popupEyebrow");
-  const actionEl = $("popupAction");
-  const popup = $("sitePopup");
+  $("popupTitle").textContent = title;
+  $("popupMessage").textContent = message;
 
-  if (!popup) {
-    alert(`${title}\n\n${message}`);
-    return;
+  $("popupIcon").textContent =
+    type === "error" ? "!" :
+    type === "success" ? "✓" : "i";
+
+  $("popupEyebrow").textContent =
+    type === "error" ? "ERROR" :
+    type === "success" ? "SUCCESS" :
+    "NOTICE";
+
+  const button = $("popupAction");
+
+  button.classList.toggle("hidden", !action);
+
+  if (action) {
+    button.textContent = action.text;
+    button.onclick = () => {
+      hidePopup();
+      action.fn?.();
+    };
   }
 
-  if (titleEl) titleEl.textContent = title;
-  if (messageEl) messageEl.textContent = message;
-
-  if (iconEl) {
-    iconEl.textContent =
-      type === "error" ? "!" :
-      type === "success" ? "✓" : "i";
-  }
-
-  if (eyebrowEl) {
-    eyebrowEl.textContent =
-      type === "error" ? "ERROR" :
-      type === "success" ? "SUCCESS" : "NOTICE";
-  }
-
-  if (actionEl) {
-    actionEl.classList.toggle("hidden", !action);
-
-    if (action) {
-      actionEl.textContent = action.text;
-      actionEl.onclick = () => {
-        hidePopup();
-        if (typeof action.fn === "function") action.fn();
-      };
-    } else {
-      actionEl.onclick = null;
-    }
-  }
-
-  popup.classList.remove("hidden");
+  $("sitePopup").classList.remove("hidden");
 }
 
 function hidePopup() {
-  $("sitePopup")?.classList.add("hidden");
+  $("sitePopup").classList.add("hidden");
 }
 
-$("popupClose")?.addEventListener("click", hidePopup);
+$("popupClose").onclick = hidePopup;
 
-$("sitePopup")?.addEventListener("click", e => {
+$("sitePopup").addEventListener("click", e => {
   if (e.target === $("sitePopup")) {
     hidePopup();
   }
 });
 
-/* =========================================================
-   LOGO + BACKGROUND
-========================================================= */
 
-if (SITE_CONFIG.logoUrl && $("brandLogo")) {
+/* =========================
+   LOGO + BACKGROUND
+========================= */
+
+if (SITE_CONFIG.logoUrl) {
   $("brandLogo").src = SITE_CONFIG.logoUrl;
   $("brandLogo").classList.remove("hidden");
 }
@@ -129,367 +124,212 @@ if (SITE_CONFIG.backgroundUrl) {
   document.body.classList.add("custom-bg");
 }
 
-/* =========================================================
-   STATE
-========================================================= */
 
-let editingId = null;
-let editingType = null;
+/* =========================
+   MULTIPLE FOTO
+========================= */
 
-/* =========================================================
-   DYNAMIC DISCOUNT FIELDS
-   HTML LU BELUM PUNYA FIELD DISKON,
-   JADI JS MEMBUATNYA SENDIRI.
-========================================================= */
+function getImageInputs(containerId) {
+  const container = $(containerId);
 
-function ensureDiscountField(formId, priceId, discountId, label) {
-  const form = $(formId);
-  const price = $(priceId);
+  if (!container) return [];
 
-  if (!form || !price) return null;
+  return [...container.querySelectorAll("input")]
+    .map(input => input.value.trim())
+    .filter(Boolean);
+}
 
-  let input = $(discountId);
 
-  if (input) return input;
+function createImageInput(containerId, value = "", focus = false) {
+  const container = $(containerId);
 
-  input = document.createElement("input");
-  input.id = discountId;
-  input.type = "number";
-  input.min = "0";
-  input.placeholder = label;
+  if (!container) return null;
 
-  price.insertAdjacentElement("afterend", input);
+  const input = document.createElement("input");
+
+  input.type = "url";
+  input.placeholder = "URL/path gambar dari imgur";
+  input.value = value;
+
+  input.style.display = "block";
+  input.style.width = "100%";
+  input.style.boxSizing = "border-box";
+  input.style.marginBottom = "12px";
+
+  container.appendChild(input);
+
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      if (input.value.trim()) {
+        createImageInput(containerId, "", true);
+      }
+    }
+  });
 
   return input;
 }
 
-/* =========================================================
-   MULTIPLE IMAGE URL MANAGER
-   ========================================================= */
 
-function setupImageManager(formId, firstInputId, managerId) {
-  const form = document.getElementById(formId);
-  const original = document.getElementById(firstInputId);
+function ensureImageInput(containerId) {
+  const container = $(containerId);
 
-  if (!form || !original) return null;
+  if (!container) return;
 
-  // Jangan pindahkan input asli.
-  // Sembunyikan saja dan buat input URL baru yang benar-benar terlihat.
-  original.style.display = "none";
-
-  let manager = document.getElementById(managerId);
-
-  if (!manager) {
-    manager = document.createElement("div");
-    manager.id = managerId;
-    manager.className = "multi-image-manager";
-
-    original.insertAdjacentElement("afterend", manager);
+  if (!container.querySelector("input")) {
+    createImageInput(containerId);
   }
-
-  manager.innerHTML = "";
-
-  const title = document.createElement("div");
-  title.textContent = "Foto produk";
-  title.style.cssText =
-    "font-weight:800;color:#c9a45b;font-size:16px;margin:8px 0 12px";
-
-  const hint = document.createElement("div");
-  hint.textContent =
-    "Foto pertama menjadi foto utama. Tekan Enter/Done untuk membuat kolom berikutnya. Tidak ada batas jumlah foto.";
-  hint.style.cssText =
-    "color:#888;line-height:1.7;margin:10px 0 18px";
-
-  const inputsBox = document.createElement("div");
-  inputsBox.className = "image-inputs";
-
-  const addButton = document.createElement("button");
-  addButton.type = "button";
-  addButton.textContent = "+ Tambah URL foto";
-  addButton.style.cssText =
-    "width:100%;padding:14px;border:0;border-radius:12px;background:#11110f;color:#c9a45b;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px";
-
-  manager.appendChild(title);
-  manager.appendChild(inputsBox);
-  manager.appendChild(addButton);
-  manager.appendChild(hint);
-
-  function createInput(value = "") {
-    const input = document.createElement("input");
-
-    input.type = "url";
-    input.value = value;
-    input.placeholder = "URL/path gambar dari imgur";
-
-    // Paksa tampil meskipun CSS lama bermasalah.
-    input.style.cssText =
-      "display:block!important;width:100%!important;box-sizing:border-box!important;margin:0 0 12px!important;padding:13px!important;background:#11110f!important;color:#fff!important;border:1px solid #302c24!important;border-radius:11px!important;font:inherit!important;min-height:48px!important;opacity:1!important;visibility:visible!important;";
-
-    inputsBox.appendChild(input);
-
-    input.addEventListener("keydown", e => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-
-        if (input.value.trim()) {
-          createInput();
-        }
-      }
-    });
-
-    return input;
-  }
-
-  function getImages() {
-    return [...inputsBox.querySelectorAll("input")]
-      .map(input => input.value.trim())
-      .filter(Boolean);
-  }
-
-  function setImages(images) {
-    inputsBox.innerHTML = "";
-
-    const list = Array.isArray(images)
-      ? images.filter(x => String(x).trim())
-      : [];
-
-    if (list.length === 0) {
-      createInput();
-      return;
-    }
-
-    list.forEach(url => createInput(String(url)));
-  }
-
-  function resetImages() {
-    inputsBox.innerHTML = "";
-    original.value = "";
-    createInput();
-  }
-
-  addButton.addEventListener("click", () => {
-    const input = createInput();
-    input.focus();
-  });
-
-  // Selalu mulai dengan minimal 1 kolom URL.
-  createInput();
-
-  return {
-    getImages,
-    setImages,
-    resetImages,
-    addInput: createInput
-  };
 }
 
-/* =========================================================
-   SETUP FORM FEATURES
-========================================================= */
 
-const carImages = setupImageManager(
-  "carForm",
-  "carImage",
-  "carImageManager"
-);
+function setImageInputs(containerId, images) {
+  const container = $(containerId);
 
-const serviceImages = setupImageManager(
-  "serviceForm",
-  "serviceImage",
-  "serviceImageManager"
-);
+  if (!container) return;
 
-const carDiscount = ensureDiscountField(
-  "carForm",
-  "carPrice",
-  "carDiscountPrice",
-  "Harga Diskon (opsional)"
-);
+  container.innerHTML = "";
 
-const serviceDiscount = ensureDiscountField(
-  "serviceForm",
-  "servicePrice",
-  "serviceDiscountPrice",
-  "Harga Diskon (opsional)"
-);
+  const list = Array.isArray(images)
+    ? images.filter(x => String(x).trim())
+    : [];
 
-/* =========================================================
-   RESET FORM
-========================================================= */
+  if (list.length === 0) {
+    createImageInput(containerId);
+    return;
+  }
+
+  list.forEach(url => {
+    createImageInput(containerId, String(url));
+  });
+}
+
+
+function resetImageInputs(containerId) {
+  const container = $(containerId);
+
+  if (!container) return;
+
+  container.innerHTML = "";
+  createImageInput(containerId);
+}
+
+
+/* Tombol + Tambah URL foto */
+
+document.querySelectorAll("[data-add-images]").forEach(button => {
+  button.addEventListener("click", () => {
+    const containerId = button.dataset.addImages;
+
+    const input = createImageInput(
+      containerId,
+      "",
+      true
+    );
+
+    if (input) {
+      input.focus();
+    }
+  });
+});
+
+
+ensureImageInput("carImages");
+ensureImageInput("serviceImages");
+
+
+/* =========================
+   EDIT
+========================= */
+
+let editingId = null;
+let editingType = null;
+
 
 function resetCar() {
   editingId = null;
   editingType = null;
 
-  $("carForm")?.reset();
+  $("carForm").reset();
 
-  carImages?.resetImages();
+  resetImageInputs("carImages");
 
-  if (carDiscount) {
-    carDiscount.value = "";
-  }
-
-  const button = $("carForm")?.querySelector(
-    'button[type="submit"], .gold-btn'
-  );
-
-  if (button) {
-    button.textContent = "Simpan Mobil";
-  }
-
-  hideCancelButton("carForm");
+  $("carSubmit").textContent = "Simpan Mobil";
+  $("carCancelEdit").classList.add("hidden");
 }
+
 
 function resetService() {
   editingId = null;
   editingType = null;
 
-  $("serviceForm")?.reset();
+  $("serviceForm").reset();
 
-  serviceImages?.resetImages();
+  resetImageInputs("serviceImages");
 
-  if (serviceDiscount) {
-    serviceDiscount.value = "";
-  }
-
-  const button = $("serviceForm")?.querySelector(
-    'button[type="submit"], .gold-btn'
-  );
-
-  if (button) {
-    button.textContent = "Simpan Jasa";
-  }
-
-  hideCancelButton("serviceForm");
+  $("serviceSubmit").textContent = "Simpan Jasa";
+  $("serviceCancelEdit").classList.add("hidden");
 }
 
-function hideCancelButton(formId) {
-  const form = $(formId);
-
-  if (!form) return;
-
-  const btn = form.querySelector(".cancel-edit-button");
-
-  if (btn) {
-    btn.classList.add("hidden");
-  }
-}
-
-function showCancelButton(formId, resetFunction) {
-  const form = $(formId);
-
-  if (!form) return;
-
-  let btn = form.querySelector(".cancel-edit-button");
-
-  if (!btn) {
-    btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "cancel-edit-button";
-    btn.textContent = "Batal Edit";
-
-    const submit = form.querySelector(
-      'button[type="submit"], .gold-btn'
-    );
-
-    if (submit) {
-      submit.insertAdjacentElement("afterend", btn);
-    } else {
-      form.appendChild(btn);
-    }
-  }
-
-  btn.classList.remove("hidden");
-  btn.onclick = resetFunction;
-}
-
-/* =========================================================
-   EDIT
-========================================================= */
 
 function startEdit(p) {
   editingId = p.id;
   editingType = p.category === "jasa" ? "service" : "car";
 
-  if (editingType === "car") {
-    $("carForm")?.classList.remove("hidden");
-    $("serviceForm")?.classList.add("hidden");
+  const images = Array.isArray(p.images)
+    ? p.images
+    : p.image
+      ? [p.image]
+      : [];
 
-    document.querySelectorAll(".admin-tab").forEach(tab => {
-      tab.classList.toggle(
+
+  if (editingType === "car") {
+
+    $("carForm").classList.remove("hidden");
+    $("serviceForm").classList.add("hidden");
+
+    document.querySelectorAll(".admin-tab").forEach(x => {
+      x.classList.toggle(
         "active",
-        tab.dataset.form === "carForm"
+        x.dataset.form === "carForm"
       );
     });
 
     $("carName").value = p.name || "";
     $("carCategory").value = p.category || "cpm1";
-    $("carCategory").dispatchEvent(new Event("change", { bubbles: true }));
-
     $("carSpec").value = p.specification || "";
     $("carPrice").value = p.price ?? "";
+    $("carDiscountPrice").value = p.discountPrice ?? "";
     $("carStock").value = p.stock ?? 0;
     $("carActive").value = String(!!p.active);
 
-    if (carDiscount) {
-      carDiscount.value = p.discountPrice ?? "";
-    }
+    setImageInputs("carImages", images);
 
-    const images = Array.isArray(p.images)
-      ? p.images
-      : p.image
-        ? [p.image]
-        : [];
-
-    carImages?.setImages(images);
-
-    const submit = $("carForm")?.querySelector(
-      'button[type="submit"], .gold-btn'
-    );
-
-    if (submit) {
-      submit.textContent = "Update Mobil";
-    }
-
-    showCancelButton("carForm", resetCar);
+    $("carSubmit").textContent = "Update Mobil";
+    $("carCancelEdit").classList.remove("hidden");
 
   } else {
-    $("serviceForm")?.classList.remove("hidden");
-    $("carForm")?.classList.add("hidden");
 
-    document.querySelectorAll(".admin-tab").forEach(tab => {
-      tab.classList.toggle(
+    $("serviceForm").classList.remove("hidden");
+    $("carForm").classList.add("hidden");
+
+    document.querySelectorAll(".admin-tab").forEach(x => {
+      x.classList.toggle(
         "active",
-        tab.dataset.form === "serviceForm"
+        x.dataset.form === "serviceForm"
       );
     });
 
     $("serviceName").value = p.name || "";
     $("serviceDescription").value = p.description || "";
     $("servicePrice").value = p.price ?? "";
+    $("serviceDiscountPrice").value = p.discountPrice ?? "";
     $("serviceActive").value = String(!!p.active);
 
-    if (serviceDiscount) {
-      serviceDiscount.value = p.discountPrice ?? "";
-    }
+    setImageInputs("serviceImages", images);
 
-    const images = Array.isArray(p.images)
-      ? p.images
-      : p.image
-        ? [p.image]
-        : [];
-
-    serviceImages?.setImages(images);
-
-    const submit = $("serviceForm")?.querySelector(
-      'button[type="submit"], .gold-btn'
-    );
-
-    if (submit) {
-      submit.textContent = "Update Jasa";
-    }
-
-    showCancelButton("serviceForm", resetService);
+    $("serviceSubmit").textContent = "Update Jasa";
+    $("serviceCancelEdit").classList.remove("hidden");
   }
 
   window.scrollTo({
@@ -498,16 +338,17 @@ function startEdit(p) {
   });
 }
 
-/* =========================================================
-   LOGIN
-========================================================= */
 
-$("loginForm")?.addEventListener("submit", async e => {
+/* =========================
+   LOGIN
+========================= */
+
+$("loginForm").addEventListener("submit", async e => {
   e.preventDefault();
   e.stopPropagation();
 
-  const email = $("email")?.value.trim() || "";
-  const password = $("password")?.value || "";
+  const email = $("email").value.trim();
+  const password = $("password").value;
 
   if (!email || !password) {
     showPopup(
@@ -524,152 +365,454 @@ $("loginForm")?.addEventListener("submit", async e => {
       email,
       password
     );
+
   } catch (err) {
-    console.error("LOGIN ERROR:", err);
+    console.error(err);
 
     showPopup(
       "Login gagal",
-      "Email atau password salah, atau Firebase Authentication belum dikonfigurasi.",
+      "Email atau password admin salah, atau Firebase Authentication belum dikonfigurasi.",
       "error"
     );
   }
 });
 
-$("logout")?.addEventListener("click", async () => {
-  try {
-    await signOut(auth);
-  } catch (err) {
-    console.error(err);
-  }
-});
 
-/* =========================================================
-   TABS
-========================================================= */
+$("logout").onclick = () => signOut(auth);
+
+
+/* =========================
+   TAB
+========================= */
 
 document.querySelectorAll(".admin-tab").forEach(tab => {
-  tab.addEventListener("click", () => {
-    const target = tab.dataset.form;
 
-    if (!target) return;
+  tab.addEventListener("click", () => {
+
+    if (!tab.dataset.form) return;
 
     document.querySelectorAll(".admin-tab").forEach(x => {
       x.classList.toggle("active", x === tab);
     });
 
-    $("carForm")?.classList.toggle(
+    $("carForm").classList.toggle(
       "hidden",
-      target !== "carForm"
+      tab.dataset.form !== "carForm"
     );
 
-    $("serviceForm")?.classList.toggle(
+    $("serviceForm").classList.toggle(
       "hidden",
-      target !== "serviceForm"
+      tab.dataset.form !== "serviceForm"
     );
   });
+
 });
 
-/* =========================================================
-   PRICE VALIDATION
-========================================================= */
 
-function validateDiscount(price, discount) {
-  const normal = Number(price) || 0;
-  const disc = Number(discount) || 0;
+/* =========================
+   LOAD ADMIN
+========================= */
 
-  if (!disc) {
-    return true;
-  }
+async function loadAdmin() {
 
-  if (!normal) {
+  try {
+
+    const snap = await getDocs(
+      collection(db, "products")
+    );
+
+    const cars = [];
+    const services = [];
+
+    snap.docs.forEach(d => {
+
+      const p = {
+        id: d.id,
+        ...d.data()
+      };
+
+      if (p.category === "jasa") {
+        services.push(p);
+      } else {
+        cars.push(p);
+      }
+
+    });
+
+
+    $("cars").innerHTML =
+      cars.map(p => `
+        <tr>
+          <td>${escapeHtml(p.name)}</td>
+
+          <td>
+            ${p.category === "cpm1"
+              ? "CPM 1"
+              : "CPM 2"}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              p.specification || "-"
+            )}
+          </td>
+
+          <td>
+            ${priceHtml(p)}
+          </td>
+
+          <td>
+            ${p.stock ?? 0}
+          </td>
+
+          <td>
+            ${p.active
+              ? "Aktif"
+              : "Nonaktif"}
+          </td>
+
+          <td class="admin-actions">
+
+            <button
+              type="button"
+              class="admin-edit"
+              data-edit="${escapeHtml(p.id)}">
+              Edit
+            </button>
+
+            <button
+              type="button"
+              class="danger"
+              data-delete="${escapeHtml(p.id)}">
+              Hapus
+            </button>
+
+          </td>
+        </tr>
+      `).join("")
+      ||
+      "<tr><td colspan='7'>Belum ada mobil.</td></tr>";
+
+
+    $("services").innerHTML =
+      services.map(p => `
+        <tr>
+
+          <td>
+            ${escapeHtml(p.name)}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              p.description || "-"
+            )}
+          </td>
+
+          <td>
+            ${priceHtml(p)}
+          </td>
+
+          <td>
+            ${p.active
+              ? "Aktif"
+              : "Nonaktif"}
+          </td>
+
+          <td class="admin-actions">
+
+            <button
+              type="button"
+              class="admin-edit"
+              data-edit="${escapeHtml(p.id)}">
+              Edit
+            </button>
+
+            <button
+              type="button"
+              class="danger"
+              data-delete="${escapeHtml(p.id)}">
+              Hapus
+            </button>
+
+          </td>
+
+        </tr>
+      `).join("")
+      ||
+      "<tr><td colspan='5'>Belum ada jasa.</td></tr>";
+
+
+    /* EDIT */
+
+    document.querySelectorAll("[data-edit]")
+      .forEach(button => {
+
+        button.onclick = async () => {
+
+          try {
+
+            const product = await getDocs(
+              collection(db, "products")
+            );
+
+            const found = product.docs.find(
+              d => d.id === button.dataset.edit
+            );
+
+            if (found) {
+              startEdit({
+                id: found.id,
+                ...found.data()
+              });
+            }
+
+          } catch (err) {
+
+            console.error(err);
+
+            showPopup(
+              "Gagal membuka edit",
+              "Produk tidak dapat dibaca dari Firestore.",
+              "error"
+            );
+          }
+        };
+
+      });
+
+
+    /* DELETE */
+
+    document.querySelectorAll("[data-delete]")
+      .forEach(button => {
+
+        button.onclick = () => {
+
+          showPopup(
+            "Hapus produk?",
+            "Produk ini akan dihapus dari katalog.",
+            "error",
+            {
+              text: "Hapus",
+
+              fn: async () => {
+
+                try {
+
+                  await deleteDoc(
+                    doc(
+                      db,
+                      "products",
+                      button.dataset.delete
+                    )
+                  );
+
+                  showPopup(
+                    "Berhasil",
+                    "Produk telah dihapus.",
+                    "success"
+                  );
+
+                  await loadAdmin();
+
+                } catch (err) {
+
+                  console.error(err);
+
+                  showPopup(
+                    "Gagal menghapus",
+                    "Periksa Firestore Rules lalu coba lagi.",
+                    "error"
+                  );
+                }
+              }
+            }
+          );
+
+        };
+
+      });
+
+
+    /* ORDERS */
+
+    const orderSnap = await getDocs(
+      query(
+        collection(db, "orders"),
+        orderBy("createdAt", "desc")
+      )
+    );
+
+    $("orders").innerHTML =
+      orderSnap.docs.map(d => {
+
+        const o = d.data();
+        const item = o.items?.[0];
+
+        return `
+          <tr>
+            <td>
+              ${escapeHtml(o.customerName)}
+            </td>
+
+            <td>
+              ${escapeHtml(o.phone)}
+            </td>
+
+            <td>
+              ${escapeHtml(item?.name || "-")}
+            </td>
+
+            <td>
+              ${escapeHtml(o.status || "Baru")}
+            </td>
+          </tr>
+        `;
+
+      }).join("")
+      ||
+      "<tr><td colspan='4'>Belum ada pesanan.</td></tr>";
+
+
+  } catch (err) {
+
+    console.error(err);
+
     showPopup(
-      "Harga tidak valid",
-      "Isi harga normal terlebih dahulu jika ingin memakai diskon.",
+      "Gagal memuat data",
+      "Periksa Firestore Rules dan konfigurasi Firebase.",
       "error"
     );
-    return false;
   }
-
-  if (disc >= normal) {
-    showPopup(
-      "Diskon tidak valid",
-      "Harga diskon harus lebih kecil dari harga normal.",
-      "error"
-    );
-    return false;
-  }
-
-  return true;
 }
 
-/* =========================================================
+
+/* =========================
    SAVE / UPDATE PRODUCT
-========================================================= */
+========================= */
 
 async function saveProduct(form, type) {
+
   const isCar = type === "car";
 
   const images = isCar
-    ? (carImages?.getImages() || [])
-    : (serviceImages?.getImages() || []);
+    ? getImageInputs("carImages")
+    : getImageInputs("serviceImages");
 
-  const mainImage = images[0] || "";
 
-  const price = isCar
-    ? Number($("carPrice").value) || 0
-    : Number($("servicePrice").value) || 0;
+  if (images.length === 0) {
 
-  const discountPrice = isCar
-    ? Number($("carDiscountPrice")?.value) || 0
-    : Number($("serviceDiscountPrice")?.value) || 0;
+    showPopup(
+      "Foto belum diisi",
+      "Masukkan minimal satu URL foto.",
+      "error"
+    );
 
-  if (!validateDiscount(price, discountPrice)) {
     return;
   }
 
+
+  const normalPrice = isCar
+    ? Number($("carPrice").value)
+    : $("servicePrice").value
+      ? Number($("servicePrice").value)
+      : 0;
+
+
+  const discountPrice = isCar
+    ? $("carDiscountPrice").value
+      ? Number($("carDiscountPrice").value)
+      : 0
+    : $("serviceDiscountPrice").value
+      ? Number($("serviceDiscountPrice").value)
+      : 0;
+
+
+  if (
+    discountPrice &&
+    normalPrice &&
+    discountPrice >= normalPrice
+  ) {
+
+    showPopup(
+      "Harga diskon tidak valid",
+      "Harga setelah diskon harus lebih kecil dari harga normal.",
+      "error"
+    );
+
+    return;
+  }
+
+
   const data = isCar
+
     ? {
         name: $("carName").value.trim(),
-        category: $("carCategory").value,
-        specification: $("carSpec").value.trim(),
 
-        price: price,
-        discountPrice: discountPrice,
+        category:
+          $("carCategory").value,
 
-        stock: Number($("carStock").value) || 0,
+        specification:
+          $("carSpec").value,
 
-        image: mainImage,
+        price:
+          normalPrice,
+
+        discountPrice:
+          discountPrice,
+
+        stock:
+          Number($("carStock").value),
+
         images: images,
 
-        active: $("carActive").value === "true",
+        // Tetap simpan image pertama
+        // supaya kompatibel dengan data lama.
+        image: images[0],
+
+        active:
+          $("carActive").value === "true",
+
         type: "car"
       }
+
     : {
-        name: $("serviceName").value.trim(),
-        category: "jasa",
+        name:
+          $("serviceName").value.trim(),
 
-        description: $("serviceDescription").value.trim(),
+        category:
+          "jasa",
 
-        price: price,
-        discountPrice: discountPrice,
+        description:
+          $("serviceDescription").value,
 
-        image: mainImage,
+        price:
+          normalPrice,
+
+        discountPrice:
+          discountPrice,
+
         images: images,
 
-        active: $("serviceActive").value === "true",
+        image: images[0],
+
+        active:
+          $("serviceActive").value === "true",
+
         type: "service"
       };
 
+
   try {
+
     if (editingId) {
+
       await updateDoc(
         doc(db, "products", editingId),
         data
       );
 
-      const wasCar = isCar;
-
-      if (wasCar) {
+      if (isCar) {
         resetCar();
       } else {
         resetService();
@@ -678,19 +821,23 @@ async function saveProduct(form, type) {
       await loadAdmin();
 
       showPopup(
-        "Berhasil",
-        wasCar
-          ? "Produk mobil berhasil diperbarui."
-          : "Jasa berhasil diperbarui.",
+        isCar
+          ? "Mobil berhasil diupdate"
+          : "Jasa berhasil diupdate",
+
+        "Perubahan sudah disimpan.",
+
         "success"
       );
 
     } else {
+
       await addDoc(
         collection(db, "products"),
         {
           ...data,
-          createdAt: new Date().toISOString()
+          createdAt:
+            new Date().toISOString()
         }
       );
 
@@ -703,301 +850,78 @@ async function saveProduct(form, type) {
       await loadAdmin();
 
       showPopup(
-        "Berhasil",
         isCar
-          ? "Mobil berhasil ditambahkan."
-          : "Jasa berhasil ditambahkan.",
+          ? "Mobil berhasil ditambahkan"
+          : "Jasa berhasil ditambahkan",
+
+        "Produk sudah masuk ke katalog.",
+
         "success"
       );
     }
 
   } catch (err) {
-    console.error("SAVE PRODUCT ERROR:", err);
+
+    console.error(err);
 
     showPopup(
-      "Gagal menyimpan",
-      "Periksa Firestore Rules dan koneksi Firebase.",
+      editingId
+        ? "Gagal mengupdate produk"
+        : isCar
+          ? "Gagal menambahkan mobil"
+          : "Gagal menambahkan jasa",
+
+      "Periksa Firestore Rules.",
+
       "error"
     );
   }
 }
 
-/* =========================================================
+
+/* =========================
    FORM SUBMIT
-========================================================= */
+========================= */
 
-$("carForm")?.addEventListener("submit", e => {
+$("carForm").onsubmit = e => {
   e.preventDefault();
-  e.stopPropagation();
-
   saveProduct(e.target, "car");
-});
+};
 
-$("serviceForm")?.addEventListener("submit", e => {
+
+$("serviceForm").onsubmit = e => {
   e.preventDefault();
-  e.stopPropagation();
-
   saveProduct(e.target, "service");
-});
+};
 
-/* =========================================================
-   LOAD ADMIN DATA
-========================================================= */
 
-async function loadAdmin() {
-  try {
-    const snap = await getDocs(
-      collection(db, "products")
-    );
+$("carCancelEdit").onclick = resetCar;
+$("serviceCancelEdit").onclick = resetService;
 
-    const cars = [];
-    const services = [];
 
-    snap.docs.forEach(d => {
-      const p = {
-        id: d.id,
-        ...d.data()
-      };
-
-      if (p.category === "jasa") {
-        services.push(p);
-      } else {
-        cars.push(p);
-      }
-    });
-
-    /* -------------------------
-       MOBIL
-    ------------------------- */
-
-    $("cars").innerHTML =
-      cars.map(p => {
-        const normal = Number(p.price) || 0;
-        const discount = Number(p.discountPrice) || 0;
-
-        const price =
-          discount > 0 &&
-          normal > 0 &&
-          discount < normal
-            ? `<span class="price-old">${rupiah(normal)}</span> <span class="price-new">${rupiah(discount)}</span>`
-            : normal
-              ? `<span class="price-new">${rupiah(normal)}</span>`
-              : "-";
-
-        return `
-          <tr>
-            <td>${escapeHtml(p.name)}</td>
-            <td>${p.category === "cpm1" ? "CPM 1" : "CPM 2"}</td>
-            <td>${escapeHtml(p.specification || "-")}</td>
-            <td>${price}</td>
-            <td>${p.stock ?? 0}</td>
-            <td>${p.active ? "Aktif" : "Nonaktif"}</td>
-            <td>
-              <button
-                type="button"
-                class="admin-edit"
-                data-edit="${escapeHtml(p.id)}"
-              >Edit</button>
-
-              <button
-                type="button"
-                class="danger"
-                data-delete="${escapeHtml(p.id)}"
-              >Hapus</button>
-            </td>
-          </tr>
-        `;
-      }).join("") ||
-      "<tr><td colspan='7'>Belum ada mobil.</td></tr>";
-
-    /* -------------------------
-       JASA
-    ------------------------- */
-
-    $("services").innerHTML =
-      services.map(p => {
-        const normal = Number(p.price) || 0;
-        const discount = Number(p.discountPrice) || 0;
-
-        const price =
-          discount > 0 &&
-          normal > 0 &&
-          discount < normal
-            ? `<span class="price-old">${rupiah(normal)}</span> <span class="price-new">${rupiah(discount)}</span>`
-            : normal
-              ? `<span class="price-new">${rupiah(normal)}</span>`
-              : "-";
-
-        return `
-          <tr>
-            <td>${escapeHtml(p.name)}</td>
-            <td>${escapeHtml(p.description || "-")}</td>
-            <td>${price}</td>
-            <td>${p.active ? "Aktif" : "Nonaktif"}</td>
-            <td>
-              <button
-                type="button"
-                class="admin-edit"
-                data-edit="${escapeHtml(p.id)}"
-              >Edit</button>
-
-              <button
-                type="button"
-                class="danger"
-                data-delete="${escapeHtml(p.id)}"
-              >Hapus</button>
-            </td>
-          </tr>
-        `;
-      }).join("") ||
-      "<tr><td colspan='5'>Belum ada jasa.</td></tr>";
-
-    /* -------------------------
-       EDIT BUTTON
-    ------------------------- */
-
-    document.querySelectorAll("[data-edit]").forEach(btn => {
-      btn.onclick = async () => {
-        const id = btn.dataset.edit;
-
-        try {
-          const snap = await getDocs(
-            collection(db, "products")
-          );
-
-          const found = snap.docs.find(
-            d => d.id === id
-          );
-
-          if (!found) {
-            showPopup(
-              "Gagal",
-              "Produk tidak ditemukan.",
-              "error"
-            );
-            return;
-          }
-
-          startEdit({
-            id: found.id,
-            ...found.data()
-          });
-
-        } catch (err) {
-          console.error(err);
-
-          showPopup(
-            "Gagal",
-            "Tidak bisa mengambil data produk.",
-            "error"
-          );
-        }
-      };
-    });
-
-    /* -------------------------
-       DELETE BUTTON
-    ------------------------- */
-
-    document.querySelectorAll("[data-delete]").forEach(btn => {
-      btn.onclick = () => {
-        showPopup(
-          "Hapus produk?",
-          "Produk ini akan dihapus dari katalog.",
-          "error",
-          {
-            text: "Hapus",
-            fn: async () => {
-              try {
-                await deleteDoc(
-                  doc(db, "products", btn.dataset.delete)
-                );
-
-                await loadAdmin();
-
-                showPopup(
-                  "Berhasil",
-                  "Produk telah dihapus.",
-                  "success"
-                );
-
-              } catch (err) {
-                console.error(err);
-
-                showPopup(
-                  "Gagal menghapus",
-                  "Periksa Firestore Rules lalu coba lagi.",
-                  "error"
-                );
-              }
-            }
-          }
-        );
-      };
-    });
-
-    /* -------------------------
-       ORDERS
-    ------------------------- */
-
-    try {
-      const orderSnap = await getDocs(
-        query(
-          collection(db, "orders"),
-          orderBy("createdAt", "desc")
-        )
-      );
-
-      $("orders").innerHTML =
-        orderSnap.docs.map(d => {
-          const o = d.data();
-          const item = o.items?.[0];
-
-          return `
-            <tr>
-              <td>${escapeHtml(o.customerName || "-")}</td>
-              <td>${escapeHtml(o.phone || "-")}</td>
-              <td>${escapeHtml(item?.name || "-")}</td>
-              <td>${escapeHtml(o.status || "Baru")}</td>
-            </tr>
-          `;
-        }).join("") ||
-        "<tr><td colspan='4'>Belum ada pesanan.</td></tr>";
-
-    } catch (orderError) {
-      console.error("ORDERS ERROR:", orderError);
-
-      if ($("orders")) {
-        $("orders").innerHTML =
-          "<tr><td colspan='4'>Pesanan belum tersedia.</td></tr>";
-      }
-    }
-
-  } catch (err) {
-    console.error("LOAD ADMIN ERROR:", err);
-
-    showPopup(
-      "Gagal memuat data",
-      "Periksa Firestore Rules dan konfigurasi Firebase.",
-      "error"
-    );
-  }
-}
-
-/* =========================================================
+/* =========================
    AUTH STATE
-========================================================= */
+========================= */
 
 onAuthStateChanged(auth, user => {
-  const login = $("login");
-  const panel = $("adminPanel");
-  const logout = $("logout");
 
-  login?.classList.toggle("hidden", !!user);
-  panel?.classList.toggle("hidden", !user);
-  logout?.classList.toggle("hidden", !user);
+  $("login").classList.toggle(
+    "hidden",
+    !!user
+  );
+
+  $("adminPanel").classList.toggle(
+    "hidden",
+    !user
+  );
+
+  $("logout").classList.toggle(
+    "hidden",
+    !user
+  );
 
   if (user) {
     loadAdmin();
   }
+
 });
