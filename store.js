@@ -52,8 +52,10 @@ function render(){
     const name=escapeHtml(p.name||"");
     const catLabel=p.normalizedCategory==="jasa"?"JASA CPM":p.normalizedCategory==="cpm1"?"CPM 1":"CPM 2";
     const watermark=SITE_CONFIG.logoUrl?`<img class="card-watermark" src="${escapeHtml(SITE_CONFIG.logoUrl)}" alt="">`:"";
-    if(p.normalizedCategory==="jasa")return `<article class="product-card service-card"><div class="image-wrap"><img src="${image}" alt="${name}" loading="lazy"></div><div class="body"><div class="meta-row"><span class="tag">${catLabel}</span>${watermark}</div><h3>${name||"Jasa CPM"}</h3><p class="description">${escapeHtml(p.description||"")}</p>${p.price?`<p class="price">${rupiah(p.price)}</p>`:""}<button class="add" data-order="${escapeHtml(p.id)}">Pesan Jasa</button></div></article>`;
-    return `<article class="product-card card"><div class="image-wrap"><img src="${image}" alt="${name}" loading="lazy"></div><div class="body"><div class="meta-row"><span class="tag">${catLabel}</span>${watermark}</div><h3>${name}</h3><p class="spec">${escapeHtml(p.specification||"Specification belum tersedia.")}</p><p class="price">${rupiah(p.price)}</p><p class="stock">${Number(p.stock)>0?"Tersedia":"Stok habis"}</p><button class="add" data-order="${escapeHtml(p.id)}" ${Number(p.stock)>0?"":"disabled"}>Pesan</button></div></article>`;
+    const normalPrice=Number(p.price)||0,discountPrice=Number(p.discountPrice)||0;
+    const displayPrice=(discountPrice>0&&normalPrice>0&&discountPrice<normalPrice)?`<span class="price-old">${rupiah(normalPrice)}</span><span class="price-new">${rupiah(discountPrice)}</span>`:(normalPrice?`<span class="price-new">${rupiah(normalPrice)}</span>`:"");
+    if(p.normalizedCategory==="jasa")return `<article class="product-card service-card"><div class="image-wrap"><img src="${image}" alt="${name}" loading="lazy"></div><div class="body"><div class="meta-row"><span class="tag">${catLabel}</span>${watermark}</div><h3>${name||"Jasa CPM"}</h3><p class="description">${escapeHtml(p.description||"")}</p>${displayPrice?`<p class="price">${displayPrice}</p>`:""}<button class="add" data-order="${escapeHtml(p.id)}">Pesan Jasa</button></div></article>`;
+    return `<article class="product-card card"><div class="image-wrap"><img src="${image}" alt="${name}" loading="lazy"></div><div class="body"><div class="meta-row"><span class="tag">${catLabel}</span>${watermark}</div><h3>${name}</h3><p class="spec">${escapeHtml(p.specification||"Specification belum tersedia.")}</p><p class="price">${displayPrice}</p><p class="stock">${Number(p.stock)>0?"Tersedia":"Stok habis"}</p><button class="add" data-order="${escapeHtml(p.id)}" ${Number(p.stock)>0?"":"disabled"}>Pesan</button></div></article>`;
   }).join("")||"<p class='empty-state'>Belum ada produk di kategori ini.</p>";
   document.querySelectorAll("[data-order]").forEach(btn=>btn.onclick=()=>orderWhatsApp(btn.dataset.order));
 }
@@ -64,7 +66,8 @@ function orderWhatsApp(id){
 
   const number="6283129582374";
 
-  const message=`Yo Bitch I wanna order ${p.name||Produk}, is it still ready bitch?`;
+  const finalPrice=(Number(p.discountPrice)>0&&Number(p.price)>0&&Number(p.discountPrice)<Number(p.price))?p.discountPrice:p.price;
+  const message=`permisi mau order "${p.name||"Produk"}", harga ${rupiah(finalPrice)}, apakah masih ready?`;
 
   window.open(
     `https://wa.me/${number}?text=${encodeURIComponent(message)}`,

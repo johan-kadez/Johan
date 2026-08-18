@@ -512,3 +512,14 @@ footer{display:none!important}
   visibility: visible !important;
   background: transparent !important;
 }
+
+
+/* ===== PRODUCT DISCOUNT + ADMIN EDIT ===== */
+.price{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.price-old{color:#777;text-decoration:line-through;text-decoration-thickness:2px;font-size:.82em;font-weight:600}
+.price-new{color:#f4f1e9;font-weight:900}
+.admin-actions{white-space:nowrap}
+.admin-edit{background:#171511;color:#c9a45b;border:1px solid #3a3223;padding:8px 11px;border-radius:9px;cursor:pointer;margin-right:6px}
+.admin-edit:hover{background:#211c14;border-color:#c9a45b}
+.admin-page .admin-form{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:700px){.admin-page .admin-form{grid-template-columns:1fr}.admin-actions{white-space:normal}.admin-edit{margin-bottom:6px}.price{gap:6px}}
