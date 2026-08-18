@@ -552,3 +552,13 @@ body.detail-open{overflow:hidden}
   max-height: none;
   overflow: visible;
 }
+
+.product-card .description,
+.product-card .spec {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
