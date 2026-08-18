@@ -536,20 +536,19 @@ body.detail-open{overflow:hidden}
 /* Batasi deskripsi di kartu etalase menjadi maksimal 3 baris */
 .product-card .description,
 .card .description {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+  display: block;
   overflow: hidden;
+  white-space: normal;
   text-overflow: ellipsis;
-  max-height: calc(1.65em * 3);
+
+  /* maksimal 40 karakter secara visual */
+  max-width: 40ch;
+  max-height: 3.3em;
 }
 
 /* Popup tetap menampilkan deskripsi lengkap */
 .popup-card .description {
-  display: block;
-  -webkit-line-clamp: unset;
-  line-clamp: unset;
+  max-width: none;
   max-height: none;
   overflow: visible;
 }
