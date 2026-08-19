@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/etminsigma/", "destination": "/admin.html" },
-    { "source": "/etminsigma", "destination": "/admin.html" }
+    { "source": "/admin/", "destination": "/admin.html" },
+    { "source": "/admin", "destination": "/admin.html" }
   ]
 }
