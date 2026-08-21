@@ -21,19 +21,19 @@
     <div class="panel">
       <div class="admin-tabs"><button type="button" class="admin-tab active" data-form="carForm">Tambah Mobil</button><button type="button" class="admin-tab" data-form="serviceForm">Tambah Jasa</button></div>
       <form id="carForm" class="admin-form">
-        <input id="carName" required placeholder="Nama Mobil"><select id="carCategory" required><option value="cpm1">CPM 1</option><option value="cpm2">CPM 2</option></select>
+        <input id="carName" required placeholder="Nama Mobil"><input id="carProductId" required placeholder="ID Produk (contoh: HLX-07)"><select id="carCategory" required><option value="cpm1">CPM 1</option><option value="cpm2">CPM 2</option></select>
         <textarea id="carSpec" required placeholder="Specification"></textarea><input id="carPrice" type="number" min="0" required placeholder="Harga normal"><input id="carDiscountPrice" type="number" min="0" placeholder="Harga diskon (opsional)"><input id="carStock" type="number" min="0" required placeholder="Stok">
         <div class="image-input-block"><label>Foto produk</label><div id="carImages" class="image-input-list"></div><button type="button" class="image-add-btn" data-add-images="carImages">+ Tambah URL foto</button><small>Foto pertama menjadi foto utama. Tekan Enter/Done pada URL untuk membuat kolom berikutnya. Tidak ada batas jumlah foto.</small></div>
         <select id="carActive"><option value="true">Aktif</option><option value="false">Nonaktif</option></select><div class="form-actions"><button type="button" id="carCancelEdit" class="admin-tab hidden">Batal Edit</button><button class="gold-btn" id="carSubmit">Simpan Mobil</button></div>
       </form>
       <form id="serviceForm" class="admin-form hidden">
-        <input id="serviceName" required placeholder="Nama Jasa"><textarea id="serviceDescription" required placeholder="Deskripsi jasa"></textarea><input id="servicePrice" type="number" min="0" placeholder="Harga normal (opsional)"><input id="serviceDiscountPrice" type="number" min="0" placeholder="Harga diskon (opsional)">
+        <input id="serviceName" required placeholder="Nama Jasa"><input id="serviceProductId" required placeholder="ID Produk (contoh: JSA-01)"><textarea id="serviceDescription" required placeholder="Deskripsi jasa"></textarea><input id="servicePrice" type="number" min="0" placeholder="Harga normal (opsional)"><input id="serviceDiscountPrice" type="number" min="0" placeholder="Harga diskon (opsional)">
         <div class="image-input-block"><label>Foto jasa</label><div id="serviceImages" class="image-input-list"></div><button type="button" class="image-add-btn" data-add-images="serviceImages">+ Tambah URL foto</button><small>Foto pertama menjadi foto utama. Tekan Enter/Done pada URL untuk membuat kolom berikutnya. Tidak ada batas jumlah foto.</small></div>
         <select id="serviceActive"><option value="true">Aktif</option><option value="false">Nonaktif</option></select><div class="form-actions"><button type="button" id="serviceCancelEdit" class="admin-tab hidden">Batal Edit</button><button class="gold-btn" id="serviceSubmit">Simpan Jasa</button></div>
       </form>
     </div>
-    <div class="panel"><p class="eyebrow">CATALOG</p><h2>Mobil</h2><div class="table-wrap"><table><thead><tr><th>Nama Mobil</th><th>Kategori</th><th>Specification</th><th>Harga</th><th>Stok</th><th>Status</th><th></th></tr></thead><tbody id="cars"></tbody></table></div></div>
-    <div class="panel"><p class="eyebrow">SERVICE</p><h2>Jasa</h2><div class="table-wrap"><table><thead><tr><th>Nama Jasa</th><th>Deskripsi</th><th>Harga</th><th>Status</th><th></th></tr></thead><tbody id="services"></tbody></table></div></div>
+    <div class="panel"><p class="eyebrow">CATALOG</p><h2>Mobil</h2><input id="adminProductSearch" type="search" placeholder="Cari nama atau ID produk..." autocomplete="off"><div class="table-wrap"><table><thead><tr><th>ID Produk</th><th>Nama Mobil</th><th>Kategori</th><th>Specification</th><th>Harga</th><th>Stok</th><th>Status</th><th></th></tr></thead><tbody id="cars"></tbody></table></div></div>
+    <div class="panel"><p class="eyebrow">SERVICE</p><h2>Jasa</h2><div class="table-wrap"><table><thead><tr><th>ID Produk</th><th>Nama Jasa</th><th>Deskripsi</th><th>Harga</th><th>Status</th><th></th></tr></thead><tbody id="services"></tbody></table></div></div>
     <div class="panel"><p class="eyebrow">ORDERS</p><h2>Pesanan</h2><div class="table-wrap"><table><thead><tr><th>Pelanggan</th><th>WA</th><th>Produk/Jasa</th><th>Status</th></tr></thead><tbody id="orders"></tbody></table></div></div>
   </div>
 </main>

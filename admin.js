@@ -296,6 +296,7 @@ function startEdit(p) {
     });
 
     $("carName").value = p.name || "";
+    $("carProductId").value = p.productId || "";
     $("carCategory").value = p.category || "cpm1";
     $("carSpec").value = p.specification || "";
     $("carPrice").value = p.price ?? "";
@@ -321,6 +322,7 @@ function startEdit(p) {
     });
 
     $("serviceName").value = p.name || "";
+    $("serviceProductId").value = p.productId || "";
     $("serviceDescription").value = p.description || "";
     $("servicePrice").value = p.price ?? "";
     $("serviceDiscountPrice").value = p.discountPrice ?? "";
@@ -443,6 +445,7 @@ async function loadAdmin() {
     $("cars").innerHTML =
       cars.map(p => `
         <tr>
+          <td>${escapeHtml(p.productId || "-")}</td>
           <td>${escapeHtml(p.name)}</td>
 
           <td>
@@ -491,12 +494,16 @@ async function loadAdmin() {
         </tr>
       `).join("")
       ||
-      "<tr><td colspan='7'>Belum ada mobil.</td></tr>";
+      "<tr><td colspan='8'>Belum ada mobil.</td></tr>";
 
 
     $("services").innerHTML =
       services.map(p => `
         <tr>
+
+          <td>
+            ${escapeHtml(p.productId || "-")}
+          </td>
 
           <td>
             ${escapeHtml(p.name)}
@@ -539,7 +546,7 @@ async function loadAdmin() {
         </tr>
       `).join("")
       ||
-      "<tr><td colspan='5'>Belum ada jasa.</td></tr>";
+      "<tr><td colspan='6'>Belum ada jasa.</td></tr>";
 
 
     /* EDIT */
@@ -749,6 +756,8 @@ async function saveProduct(form, type) {
     ? {
         name: $("carName").value.trim(),
 
+        productId: $("carProductId").value.trim(),
+
         category:
           $("carCategory").value,
 
@@ -779,6 +788,9 @@ async function saveProduct(form, type) {
     : {
         name:
           $("serviceName").value.trim(),
+
+        productId:
+          $("serviceProductId").value.trim(),
 
         category:
           "jasa",
@@ -897,6 +909,20 @@ $("serviceForm").onsubmit = e => {
 
 $("carCancelEdit").onclick = resetCar;
 $("serviceCancelEdit").onclick = resetService;
+
+
+/* =========================
+   ADMIN PRODUCT SEARCH
+========================= */
+
+$("adminProductSearch").addEventListener("input", e => {
+  const q = e.target.value.trim().toLowerCase();
+
+  document.querySelectorAll("#cars tr, #services tr").forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = !q || text.includes(q) ? "" : "none";
+  });
+});
 
 
 /* =========================
