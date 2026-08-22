@@ -638,26 +638,18 @@ body.detail-open{overflow:hidden}
 }
 
 /* =================================================
-   DETAIL PRODUK - CENTER TOTAL
+   DETAIL PRODUK - RESPONSIVE HP + LAPTOP/PC
    ================================================= */
 
 .product-detail-sheet {
   position: relative !important;
-  background: #0b1428 !important;
-}
+  width: min(760px, 100%) !important;
+  max-width: 100% !important;
+  max-height: 92vh !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
 
-/* Background LOGO hanya untuk bagian informasi */
-.product-detail-sheet .detail-content {
-  width: 100% !important;
   box-sizing: border-box !important;
-
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-
-  text-align: center !important;
-
-  padding: 30px 24px 35px !important;
 
   background:
     linear-gradient(
@@ -667,79 +659,74 @@ body.detail-open{overflow:hidden}
     url("./logo.png") center / cover no-repeat !important;
 }
 
-/* CPM 1 */
-.product-detail-sheet .detail-content .eyebrow {
+/* Bagian informasi */
+.product-detail-sheet .detail-content {
   width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+
   text-align: center !important;
+
+  padding: clamp(18px, 4vw, 30px)
+           clamp(16px, 4vw, 28px)
+           clamp(24px, 5vw, 35px) !important;
+}
+
+/* Semua teks center tanpa bikin melebar */
+.product-detail-sheet .detail-content > * {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+}
+
+/* Nama produk */
+.product-detail-sheet .detail-content h2 {
+  font-size: clamp(24px, 5vw, 34px) !important;
+  line-height: 1.2 !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* Deskripsi & spesifikasi */
+.product-detail-sheet .detail-description,
+.product-detail-sheet .detail-spec {
+  width: min(100%, 600px) !important;
   margin-left: auto !important;
   margin-right: auto !important;
-}
 
-/* BMW M5 F90 */
-.product-detail-sheet .detail-content h2 {
-  width: 100% !important;
-  text-align: center !important;
-  margin: 8px 0 14px !important;
-}
-
-/* ID Produk */
-.product-detail-sheet .detail-content .detail-id {
-  width: 100% !important;
-  text-align: center !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
 }
 
 /* Harga */
-.product-detail-sheet .detail-content .detail-price {
-  width: 100% !important;
-  text-align: center !important;
-}
-
-/* Tersedia */
-.product-detail-sheet .detail-content .detail-stock {
-  width: 100% !important;
-  text-align: center !important;
-}
-
-/* Deskripsi */
-.product-detail-sheet .detail-content .detail-description {
-  width: 100% !important;
-  text-align: center !important;
-}
-
-/* Specification */
-.product-detail-sheet .detail-content .detail-spec {
-  width: 100% !important;
-  text-align: center !important;
+.product-detail-sheet .detail-price {
+  font-size: clamp(19px, 4vw, 22px) !important;
 }
 
 /* Tombol order */
-.product-detail-sheet .detail-content .detail-order {
+.product-detail-sheet .detail-order {
   width: 100% !important;
-  text-align: center !important;
+  max-width: 600px !important;
 }
 
-/* X kanan atas */
+/* X */
 .product-detail-sheet .detail-close {
   position: absolute !important;
-  top: 14px !important;
-  right: 14px !important;
+  top: 12px !important;
+  right: 12px !important;
   z-index: 9999 !important;
 
-  width: 42px !important;
-  height: 42px !important;
+  width: 40px !important;
+  height: 40px !important;
   padding: 0 !important;
 
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
 
-  text-align: center !important;
-
-  background: rgba(10,18,35,.88) !important;
-  color: #fff !important;
-  border: 0 !important;
-  border-radius: 12px !important;
-
-  font-size: 27px !important;
+  font-size: 25px !important;
   line-height: 1 !important;
 }
