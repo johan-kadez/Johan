@@ -1,105 +1,119 @@
-function makeSlug(value) {
-  return String(value ?? "")
-    .trim()
-    .toLowerCase()
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 80);
-}
-
-function xmlEscape(value) {
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
-}
-
-function extractProjectId(configJs) {
-  const match = String(configJs).match(
-    /projectId\s*:\s*["']([^"']+)["']/
-  );
-  return match?.[1] || "";
-}
-
 export default async function handler(req, res) {
   try {
-    const origin =
-      `${req.headers["x-forwarded-proto"] || "https"}://${req.headers.host}`;
+    const DOMAIN = "https://johancpm.my.id";
 
-    const configResponse =
-      await fetch(`${origin}/firebase-config.js`);
+    // Ambil Firebase config dari website
+    const configRes = await fetch(
+      `${DOMAIN}/firebase-config.js`,
+      {
+        redirect: "follow"
+      }
+    );
 
-    if (!configResponse.ok) {
-      throw new Error("firebase-config.js tidak bisa dibaca.");
+    if (!configRes.ok) {
+      throw new Error("Firebase config tidak bisa dibaca");
     }
 
-    const configJs = await configResponse.text();
-    const projectId = extractProjectId(configJs);
+    const configText = await configRes.text();
 
-    if (!projectId) {
-      throw new Error("projectId tidak ditemukan.");
+    const match = configText.match(
+      /projectId\s*:\s*["']([^"']+)["']/
+    );
+
+    if (!match) {
+      throw new Error("projectId Firebase tidak ditemukan");
     }
 
+    const projectId = match[1];
+
+    // Ambil produk dari Firestore
     const firestoreUrl =
-      `https://firestore.googleapis.com/v1/projects/` +
-      `${encodeURIComponent(projectId)}` +
-      `/databases/(default)/documents/products?pageSize=1000`;
+      "https://firestore.googleapis.com/v1/projects/" +
+      encodeURIComponent(projectId) +
+      "/databases/(default)/documents/products";
 
-    const response = await fetch(firestoreUrl);
+    const firestoreRes = await fetch(firestoreUrl);
 
-    if (!response.ok) {
+    if (!firestoreRes.ok) {
       throw new Error(
-        `Firestore HTTP ${response.status}`
+        "Firestore error: " + firestoreRes.status
       );
     }
 
-    const data = await response.json();
+    const data = await firestoreRes.json();
 
     const urls = [
-      `${origin}/`
+      `${DOMAIN}/`
     ];
 
     for (const doc of data.documents || []) {
       const fields = doc.fields || {};
 
-      // Hanya produk aktif
       if (fields.active?.booleanValue !== true) {
         continue;
       }
 
-      const slug =
+      const name =
         fields.slug?.stringValue ||
-        makeSlug(
-          fields.productId?.stringValue ||
-          fields.name?.stringValue ||
-          doc.name?.split("/").pop()
-        );
+        fields.productId?.stringValue ||
+        fields.name?.stringValue;
+
+      if (!name) continue;
+
+      const slug = String(name)
+        .toLowerCase()
+        .normalize("NFKD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
 
       if (slug) {
         urls.push(
-          `${origin}/product/${encodeURIComponent(slug)}`
+          `${DOMAIN}/product/${encodeURIComponent(slug)}`
         );
       }
     }
 
     const uniqueUrls = [...new Set(urls)];
 
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+    const xml =
+`<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${uniqueUrls
-  .map(url => `  <url><loc>${xmlEscape(url)}</loc></url>`)
+  .map(url => `  <url><loc>${url}</loc></url>`)
   .join("\n")}
 </urlset>`;
 
+    res.status(200);
+    res.setHeader(
+      "Content-Type",
+      "application/xml; charset=utf-8"
+    );
+    res.setHeader(
+      "Cache-Control",
+      "public, max-age=300"
+    );
+
+    return res.end(xml);
+
+  } catch (error) {
+
+    console.error("SITEMAP ERROR:", error);
+
+    const xml =
+`<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://johancpm.my.id/</loc>
+  </url>
+</urlset>`;
+
+    res.status(200);
     res.setHeader(
       "Content-Type",
       "application/xml; charset=utf-8"
     );
 
-    res.setHeader(
-      "Cache-Control",
-      "public, s-maxage=300
+    return res.end(xml);
+  }
+}
