@@ -64,7 +64,7 @@ function renderProduct(p,allProducts){
   const number=String(SITE_CONFIG.whatsappNumber||"6283129582374").replace(/\D/g,"");
   const normal=Number(p.price)||0,disc=Number(p.discountPrice)||0;
   const finalPrice=disc>0&&normal>0&&disc<normal?disc:normal;
-  const wa=`https://wa.me/${number}?text=${encodeURIComponent(`Yo Bitch, I Wanna Order ${p.productId||p.name||"produk"} Price Like ${rupiah(finalPrice) Its Still Ready Bitch?}.`)}`;
+  const wa=`https://wa.me/${number}?text=${encodeURIComponent(`Yo B*tch, I Wanna Order ${p.productId||p.name||"produk"} Price Like ${rupiah(finalPrice) Its Still Ready B*tch?}.`)}`;
 
   const thumbs=images.map((src,i)=>`<button type="button" class="${i===0?"active":""}" data-thumb="${i}" aria-label="Foto ${i+1}">
     <img src="${escapeHtml(src)}" alt="" loading="lazy">
