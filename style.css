@@ -595,3 +595,22 @@ body.detail-open{overflow:hidden}
 .product-card .eyebrow {
   color: #f0b56a !important;
 }
+
+.product-card .add {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  margin-top: 12px !important;
+  padding: 12px !important;
+  background: #F0A868 !important;
+  color: #111 !important;
+  border: 0 !important;
+  border-radius: 11px !important;
+  font-size: 15px !important;
+  font-weight: bold !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+  text-decoration: none !important;
+  text-align: center !important;
+}
