@@ -32,7 +32,7 @@ nav button{background:#171511;color:#eee;border:1px solid #302b21;padding:10px 1
 .price{font-size:18px;font-weight:800}
 .stock{color:#888;font-size:12px}
 .spec,.description{color:#aaa;line-height:1.65;white-space:pre-line}
-.add{width:100%;margin:12px 0 6px;padding:12px;background:#c9a45b;border:0;border-radius:11px;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;text-align:center;box-sizing:border-box;line-height:1}
+.add{width:100%;margin-top:12px;padding:12px;background:#c9a45b;border:0;border-radius:11px;font-weight:bold;cursor:pointer}
 .add:disabled{opacity:.4;cursor:not-allowed}
 .modal{position:fixed;inset:0;background:#000b;display:grid;place-items:center;padding:20px;z-index:40}
 .hidden{display:none!important}
@@ -142,7 +142,7 @@ body.custom-bg{background-image:linear-gradient(#090909cc,#090909e8),var(--site-
 .card-watermark{width:28px!important;height:28px!important;aspect-ratio:1!important;object-fit:contain!important;opacity:.38;border-radius:7px;filter:grayscale(1);box-shadow:none!important;background:transparent!important}
 .tag{font-weight:800}
 .product-card h3{margin:8px 0 10px}
-.product-card .add{box-shadow:5px 5px 10px #060606,-4px -4px 9px #242016}
+.product-card .add{width:calc(100% - 12px);margin:12px auto 6px;display:flex;align-items:center;justify-content:center;text-align:center;box-shadow:5px 5px 10px #060606,-4px -4px 9px #242016}
 .product-card .add:active{box-shadow:inset 4px 4px 8px #8b6d35,inset -4px -4px 8px #dfbf78}
 .empty-state{color:#888;padding:25px}
 footer{display:none!important}
@@ -180,7 +180,7 @@ footer{display:none!important}
  .product-card h3{font-size:16px}
  .product-card .spec,.product-card .description{font-size:12px}
  .product-card .price{font-size:15px}
- .product-card .add{padding:10px;font-size:12px;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1}
+ .product-card .add{padding:10px;font-size:12px;width:calc(100% - 12px);margin:12px auto 6px;display:flex;align-items:center;justify-content:center;text-align:center}
  .card-watermark{width:23px!important;height:23px!important}
  .site-popup{padding:14px}
  .popup-card{padding:25px;border-radius:21px}
