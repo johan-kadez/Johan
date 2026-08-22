@@ -563,35 +563,50 @@ body.detail-open{overflow:hidden}
   text-overflow: ellipsis;
 }
 
-/* ===== FIX WARNA PRODUK ===== */
+/* ===== WARNA PRODUK - FINAL ===== */
 
-/* Judul List Produk */
-.products-section .eyebrow,
-.products-section h2 {
-  color: #fff !important;
+/* List Produk */
+.products-section .section-title h2,
+.products-section .toolbar h2 {
+  color: #F5F1E6 !important;
 }
 
 /* Nama produk */
 .product-card h3,
-.product-card h3 a,
-.product-card .product-title,
-.product-card .product-title a {
-  color: #fff !important;
-  text-decoration: none !important;
-}
-
-/* Tombol Lihat */
-.product-card button,
-.product-card .btn,
-.product-card .view-btn,
-.product-card a.btn {
-  color: #000 !important;
+.product-card h3 a {
+  color: #F5F1E6 !important;
   text-decoration: none !important;
 }
 
 /* Kategori CPM 1 / CPM 2 / JASA */
-.product-card .category,
-.product-card .product-category,
-.product-card .eyebrow {
-  color: #f0b56a !important;
+.product-card .tag {
+  color: #F0A868 !important;
+}
+
+/* TOMBOL LIHAT - KEMBALIKAN UKURAN ASLI */
+.product-card .add {
+  width: 100% !important;
+  margin-top: 12px !important;
+  padding: 12px !important;
+  background: #F0A868 !important;
+  color: #111 !important;
+  border: 0 !important;
+  border-radius: 11px !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  line-height: normal !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  box-sizing: border-box !important;
+}
+
+/* HP — tombol tetap besar seperti gambar kedua */
+@media (max-width: 700px) {
+  .product-card .add {
+    width: 100% !important;
+    padding: 14px !important;
+    font-size: 15px !important;
+    min-height: 52px !important;
+    border-radius: 11px !important;
+  }
 }
