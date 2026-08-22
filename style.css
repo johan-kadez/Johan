@@ -619,7 +619,9 @@ body.detail-open{overflow:hidden}
 
 /* ===== TOMBOL LIHAT - SAMA SEPERTI TARGET ===== */
 .product-card .add {
-  display: block !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   width: 100% !important;
   margin-top: 12px !important;
   padding: 12px !important;
@@ -629,7 +631,8 @@ body.detail-open{overflow:hidden}
   border-radius: 11px !important;
   font-size: 15px !important;
   font-weight: bold !important;
-  line-height: normal !important;
+  line-height: 1 !important;
   box-sizing: border-box !important;
   text-decoration: none !important;
+  text-align: center !important;
 }
