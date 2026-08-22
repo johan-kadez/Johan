@@ -1102,25 +1102,23 @@ body.product-page-body {
   }
 }
 
-/* ==================================================
-   PRIORITAS TERAKHIR — BUTTON "LIHAT" SAJA
-   Tempel PALING BAWAH style.css
-   ================================================== */
-
+/* STEP 2 — BENTUK BUTTON PERSEGI PANJANG */
 .product-card .add {
   width: calc(100% - 48px) !important;
+  height: 48px !important;
+  min-height: 48px !important;
+
   margin: 0 24px 24px !important;
 
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
 
+  border-radius: 10px !important;
   box-sizing: border-box !important;
   text-align: center !important;
 }
 
-/* TEXT "LIHAT" DI DALAM BUTTON SAJA */
-.product-card .add,
 .product-card .add span {
   text-align: center !important;
   line-height: 1 !important;
