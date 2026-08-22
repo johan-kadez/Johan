@@ -1044,28 +1044,60 @@ body.product-page-body {
 }
 
 /* =========================================================
-   BUTTON "LIHAT" — ONLY
-   Target: horizontal rounded rectangle, centered in card.
-   Does NOT change card, text, image, grid, or other elements.
+   FINAL — BUTTON "LIHAT" ONLY
+   Tidak mengubah kartu, judul, deskripsi, harga, warna teks,
+   gambar, grid, atau elemen lain.
    ========================================================= */
-
-.product-card .body > a.add {
+.product-card .add,
+.product-card button.add,
+.product-card .view-btn,
+.product-card .btn,
+.product-card a.btn {
+  width: calc(100% - 32px) !important;
+  min-width: 0 !important;
+  height: 50px !important;
+  min-height: 50px !important;
+  margin: 12px auto 0 !important;
+  padding: 0 16px !important;
   display: flex !important;
-  width: calc(100% - 48px) !important;
-  height: 72px !important;
-
-  margin-left: auto !important;
-  margin-right: auto !important;
-  margin-bottom: 22px !important;
-
-  padding: 0 !important;
-  box-sizing: border-box !important;
-
   align-items: center !important;
   justify-content: center !important;
-
   text-align: center !important;
-  line-height: 1 !important;
+  vertical-align: middle !important;
+  box-sizing: border-box !important;
+  background: #F0A868 !important;
+  color: #111 !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  font: 700 16px/1 Arial, sans-serif !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+}
 
-  flex-shrink: 0 !important;
+.product-card .add:hover,
+.product-card .view-btn:hover,
+.product-card .btn:hover,
+.product-card a.btn:hover {
+  background: #F0A868 !important;
+  color: #111 !important;
+}
+
+@media (max-width: 700px) {
+  .product-card .add,
+  .product-card button.add,
+  .product-card .view-btn,
+  .product-card .btn,
+  .product-card a.btn {
+    width: calc(100% - 32px) !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    margin: 12px auto 0 !important;
+    padding: 0 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    font: 700 15px/1 Arial, sans-serif !important;
+  }
 }
