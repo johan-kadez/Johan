@@ -28,7 +28,38 @@ function render(p){
   const finalPrice=disc>0&&normal>0&&disc<normal?disc:normal;
   const wa=`https://wa.me/${number}?text=${encodeURIComponent(`yo bitch i wanna order ${p.productId||"ID Produk"}, price : ${rupiah(finalPrice)}, still ready??`)}`;
 
-  $("app").innerHTML=`<main class="product-page"><a class="back" href="/">← Kembali ke Store</a><article class="product-detail"><div class="product-gallery"><img id="mainImage" src="${escapeHtml(main)}" alt="${escapeHtml(p.name||"Produk")}">${images.length>1?`<div class="thumbs">${images.map(src=>`<img src="${escapeHtml(src)}" alt="">`).join("")}</div>`:""}</div><div class="product-info"><p class="eyebrow">${category}</p><h1>${escapeHtml(p.name||"Produk")}</h1>${p.productId?`<p class="product-id">ID Produk: ${escapeHtml(p.productId)}</p>`:""}${price?`<div class="product-price">${price}</div>`:""}${p.category!=="jasa"?`<p class="stock">${available?"Tersedia":"Stok habis"}</p>`:""}${p.description?`<p class="description">${escapeHtml(p.description)}</p>`:""}${p.specification?`<div class="spec"><strong>Specification</strong><p>${escapeHtml(p.specification)}</p></div>`:""}${available?`<a class="gold-btn order-btn" href="${wa}" target="_blank" rel="noopener">Pesan via WhatsApp</a>`:`<button class="gold-btn order-btn" disabled>Stok habis</button>`}</div></article></main>`;
+  $("app").innerHTML=`
+    <button class="product-back-x" id="productBackX" type="button" aria-label="Kembali ke Store">×</button>
+    <main class="product-page">
+      <article class="product-detail">
+        <div class="product-gallery">
+          <img id="mainImage" src="${escapeHtml(main)}" alt="${escapeHtml(p.name||"Produk")}">
+          ${images.length>1?`<div class="thumbs">${images.map(src=>`<img src="${escapeHtml(src)}" alt="">`).join("")}</div>`:""}
+        </div>
+        <div class="product-info">
+          <p class="eyebrow">${category}</p>
+          <h1>${escapeHtml(p.name||"Produk")}</h1>
+          ${p.productId?`<p class="product-id">ID Produk: ${escapeHtml(p.productId)}</p>`:""}
+          ${price?`<div class="product-price">${price}</div>`:""}
+          ${p.category!=="jasa"?`<p class="stock">${available?"Tersedia":"Stok habis"}</p>`:""}
+          ${p.description?`<p class="description">${escapeHtml(p.description)}</p>`:""}
+          ${p.specification?`<div class="spec"><strong>Specification</strong><p>${escapeHtml(p.specification)}</p></div>`:""}
+          ${available?`<a class="gold-btn order-btn" href="${wa}" target="_blank" rel="noopener">Pesan via WhatsApp</a>`:`<button class="gold-btn order-btn" disabled>Stok habis</button>`}
+        </div>
+      </article>
+    </main>`;
+
+  $("productBackX").onclick=()=>{
+    if(document.referrer && new URL(document.referrer).origin===location.origin){
+      history.back();
+    }else{
+      location.href="/";
+    }
+  };
+
+  document.querySelectorAll(".thumbs img").forEach(t=>t.onclick=()=>{$("mainImage").src=t.src});
+  setMeta(p);
+}
   document.querySelectorAll(".thumbs img").forEach(t=>t.onclick=()=>{$("mainImage").src=t.src});
   setMeta(p);
 }
