@@ -616,3 +616,20 @@ body.detail-open{overflow:hidden}
   line-height: 1.2 !important;
   box-sizing: border-box !important;
 }
+
+/* ===== TOMBOL LIHAT - SAMA SEPERTI TARGET ===== */
+.product-card .add {
+  display: block !important;
+  width: 100% !important;
+  margin-top: 12px !important;
+  padding: 12px !important;
+  background: #F0A868 !important;
+  color: #111 !important;
+  border: 0 !important;
+  border-radius: 11px !important;
+  font-size: 15px !important;
+  font-weight: bold !important;
+  line-height: normal !important;
+  box-sizing: border-box !important;
+  text-decoration: none !important;
+}
