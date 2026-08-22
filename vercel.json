@@ -1,6 +1,12 @@
 {
   "rewrites": [
-    { "source": "/etmingantenk/", "destination": "/admin.html" },
-    { "source": "/etmingantenk", "destination": "/admin.html" }
+    {
+      "source": "/product/:slug",
+      "destination": "/product.html"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
+    }
   ]
 }

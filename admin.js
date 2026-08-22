@@ -758,6 +758,11 @@ async function saveProduct(form, type) {
 
         productId: $("carProductId").value.trim(),
 
+        slug: makeSlug(
+          $("carProductId").value.trim() ||
+          $("carName").value.trim()
+        ),
+
         category:
           $("carCategory").value,
 
@@ -792,6 +797,11 @@ async function saveProduct(form, type) {
         productId:
           $("serviceProductId").value.trim(),
 
+        slug: makeSlug(
+          $("serviceProductId").value.trim() ||
+          $("serviceName").value.trim()
+        ),
+
         category:
           "jasa",
 
@@ -819,6 +829,10 @@ async function saveProduct(form, type) {
 
     if (editingId) {
 
+      if (!data.slug) {
+        data.slug = makeSlug(data.productId || data.name || editingId);
+      }
+
       await updateDoc(
         doc(db, "products", editingId),
         data
@@ -844,13 +858,17 @@ async function saveProduct(form, type) {
 
     } else {
 
+      const productData = {
+        ...data,
+        slug: data.slug || makeSlug(
+          data.productId || data.name || crypto.randomUUID()
+        ),
+        createdAt: new Date().toISOString()
+      };
+
       await addDoc(
         collection(db, "products"),
-        {
-          ...data,
-          createdAt:
-            new Date().toISOString()
-        }
+        productData
       );
 
       if (isCar) {
