@@ -1199,101 +1199,90 @@ body.product-page-body {
 
 /* Nama produk */
 .product-card h3,
-.product-card h3 a,
-.product-card .product-title,
-.product-card .product-title a {
-  font-size: 21px !important;
-  line-height: 1.15 !important;
-  margin-bottom: 10px !important;
-}
+/* =====================================================
+   PRODUCT CARD — MATCH CONTOH MOBILE
+   LEBA R KARTU TETAP, YANG DIPENDEKKAN HANYA ISINYA
+   ===================================================== */
 
-/* Deskripsi */
-.product-card .description,
-.product-card .spec {
-  font-size: 15px !important;
-  line-height: 1.35 !important;
-  margin-bottom: 12px !important;
+@media (max-width: 700px) {
 
-  -webkit-line-clamp: 2 !important;
-  line-clamp: 2 !important;
-}
+  /* Jangan ubah lebar kolom */
+  .products-section .products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    column-gap: 18px !important;
+    row-gap: 18px !important;
+  }
 
-/* Harga */
-.product-card .price {
-  font-size: 21px !important;
-  line-height: 1.1 !important;
-  margin-bottom: 12px !important;
-}
+  .product-card {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    box-sizing: border-box !important;
+  }
 
-/* Tersedia */
-.product-card .stock,
-.product-card .availability,
-.product-card .available {
-  font-size: 15px !important;
-  line-height: 1.2 !important;
-  margin-bottom: 10px !important;
-}
+  /* FOTO PRODUK — TETAP 1:1 */
+  .product-card > img,
+  .product-card .product-image,
+  .product-card .card-image,
+  .product-card .image-wrap {
+    width: 100% !important;
+    aspect-ratio: 1 / 1 !important;
+    object-fit: cover !important;
+    display: block !important;
+  }
 
-/* Tombol */
-.product-card .add,
-.product-card button,
-.product-card .btn,
-.product-card .view-btn,
-.product-card a.btn {
-  height: 48px !important;
-  min-height: 48px !important;
-  padding: 0 12px !important;
-  font-size: 16px !important;
-  border-radius: 12px !important;
-
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* HP */
-@media (max-width: 600px) {
-
+  /* ISI KARTU */
   .product-card .card-body,
   .product-card .product-info,
   .product-card .product-content {
-    padding: 15px 16px 13px !important;
+    padding: 16px 18px 14px !important;
+    box-sizing: border-box !important;
   }
 
+  /* CPM 1 */
   .product-card .category,
   .product-card .product-category,
   .product-card .eyebrow {
-    font-size: 13px !important;
-    margin-bottom: 9px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+    letter-spacing: 3px !important;
+    margin: 0 0 14px !important;
+    color: #f0b56a !important;
   }
 
+  /* NAMA PRODUK */
   .product-card h3,
   .product-card h3 a,
   .product-card .product-title,
   .product-card .product-title a {
-    font-size: 19px !important;
-    margin-bottom: 9px !important;
+    font-size: 21px !important;
+    line-height: 1.15 !important;
+    margin: 0 0 13px !important;
+    color: #fff !important;
+    text-decoration: none !important;
   }
 
+  /* DESKRIPSI */
   .product-card .description,
   .product-card .spec {
-    font-size: 14px !important;
-    line-height: 1.35 !important;
-    margin-bottom: 10px !important;
-    -webkit-line-clamp: 2 !important;
-    line-clamp: 2 !important;
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+    margin: 0 0 15px !important;
+
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 3 !important;
+    line-clamp: 3 !important;
+
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    color: rgba(255,255,255,.58) !important;
   }
 
+  /* HARGA */
   .product-card .price {
-    font-size: 20px !important;
-    margin-bottom: 10px !important;
-  }
-
-  .product-card .stock,
-  .product-card .availability,
-  .product-card .available {
-    font-size: 14px !important;
-    margin-bottom: 9px !important;
-  }
-
-  .product-card .
+    font-size: 21px !important;
+    line-height: 1.1 !important;
+    margin: 0 0 15px !important;
+    color: #fff !important;
+    font-weight: 800 !
