@@ -637,51 +637,88 @@ body.detail-open{overflow:hidden}
   text-align: center !important;
 }
 
-/* =========================================================
-   DETAIL PRODUK — CENTER + BACKGROUND LOGO + TOMBOL X
-   ========================================================= */
+/* =================================================
+   DETAIL PRODUK - CENTER TOTAL
+   ================================================= */
 
-/* Panel detail */
 .product-detail-sheet {
   position: relative !important;
+  background: #0b1428 !important;
+}
+
+/* Background LOGO hanya untuk bagian informasi */
+.product-detail-sheet .detail-content {
+  width: 100% !important;
+  box-sizing: border-box !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+
+  text-align: center !important;
+
+  padding: 30px 24px 35px !important;
 
   background:
     linear-gradient(
-      rgba(8, 14, 28, 0.88),
-      rgba(8, 14, 28, 0.94)
+      rgba(8, 14, 28, .88),
+      rgba(8, 14, 28, .94)
     ),
     url("./logo.png") center / cover no-repeat !important;
 }
 
-/* Semua isi detail rata tengah */
-.product-detail-sheet .detail-content {
-  text-align: center !important;
-}
-
-/* Kategori */
+/* CPM 1 */
 .product-detail-sheet .detail-content .eyebrow {
+  width: 100% !important;
   text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
-/* Nama produk */
+/* BMW M5 F90 */
 .product-detail-sheet .detail-content h2 {
+  width: 100% !important;
   text-align: center !important;
+  margin: 8px 0 14px !important;
 }
 
-/* ID / deskripsi / stok / spesifikasi */
-.product-detail-sheet .detail-content p,
-.product-detail-sheet .detail-description,
-.product-detail-sheet .detail-spec,
-.product-detail-sheet .detail-stock {
+/* ID Produk */
+.product-detail-sheet .detail-content .detail-id {
+  width: 100% !important;
   text-align: center !important;
 }
 
 /* Harga */
-.product-detail-sheet .detail-price {
+.product-detail-sheet .detail-content .detail-price {
+  width: 100% !important;
   text-align: center !important;
 }
 
-/* Tombol X — pojok kanan atas */
+/* Tersedia */
+.product-detail-sheet .detail-content .detail-stock {
+  width: 100% !important;
+  text-align: center !important;
+}
+
+/* Deskripsi */
+.product-detail-sheet .detail-content .detail-description {
+  width: 100% !important;
+  text-align: center !important;
+}
+
+/* Specification */
+.product-detail-sheet .detail-content .detail-spec {
+  width: 100% !important;
+  text-align: center !important;
+}
+
+/* Tombol order */
+.product-detail-sheet .detail-content .detail-order {
+  width: 100% !important;
+  text-align: center !important;
+}
+
+/* X kanan atas */
 .product-detail-sheet .detail-close {
   position: absolute !important;
   top: 14px !important;
@@ -696,21 +733,13 @@ body.detail-open{overflow:hidden}
   align-items: center !important;
   justify-content: center !important;
 
-  background: rgba(10, 18, 35, 0.85) !important;
-  color: #fff !important;
+  text-align: center !important;
 
+  background: rgba(10,18,35,.88) !important;
+  color: #fff !important;
   border: 0 !important;
   border-radius: 12px !important;
 
   font-size: 27px !important;
-  font-weight: 700 !important;
   line-height: 1 !important;
-
-  cursor: pointer !important;
-  text-align: center !important;
-}
-
-/* Efek saat X disentuh */
-.product-detail-sheet .detail-close:active {
-  transform: scale(0.94);
 }
