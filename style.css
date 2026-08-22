@@ -394,4 +394,204 @@ footer{display:none!important}
 /* Desktop: the floating Gemini-style dock stays floating, but is centered inside a sane column width. */
 @media(min-width:701px){
  .category-dock-wrap{padding:0 24px}
- .category-dock{width:min(820px,calc(100vw - 48px));mar
+ .category-dock{width:min(820px,calc(100vw - 48px));margin:0 auto}
+ .category-dock-row{justify-content:center}
+ .category-chips{flex:0 1 auto}
+ .category-chips button{min-width:125px}
+ .dock-search{flex:0 0 50px}
+ .dock-search.expanded{flex-basis:360px;width:360px}
+ .products-section{max-width:1040px;margin:0 auto}
+}
+@media(max-width:700px){
+ .social-section{padding-top:8px;padding-bottom:48px}
+ .social-card{padding:21px 18px;border-radius:20px}
+ .social-card h2{font-size:30px}
+ .social-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .social-links a{min-height:60px;padding:13px 11px;display:block}
+ .social-links span{display:block;margin-top:5px}
+ .products-section{padding-top:24px}
+}
+
+
+/* ===== TOP OVERLAP FIX ===== */
+/* Header stays in normal document flow so hero text can never hide underneath it. */
+.site-header{
+  position:absolute !important;
+  top:0 !important;
+  left:0 !important;
+  width:100% !important;
+  z-index:100 !important;
+  min-height:0 !important;
+
+  background:transparent !important;
+  background-color:transparent !important;
+  box-shadow:none !important;
+  border:none !important;
+}
+
+
+/* FORCE HEADER LOGO */
+.site-header {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+  z-index: 9999 !important;
+}
+
+.brand {
+  display: flex !important;
+  align-items: center !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 10000 !important;
+}
+
+.brand-logo-wrap {
+  display: flex !important;
+  width: 48px !important;
+  height: 48px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+}
+
+#brandLogo {
+  display: block !important;
+  width: 48px !important;
+  height: 48px !important;
+  object-fit: contain !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+
+/* FORCE HERO TRANSPARENT */
+.hero {
+  background: transparent !important;
+  background-image: none !important;
+  background-color: transparent !important;
+
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.hero > div {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+
+/* FINAL ADMIN LOGO */
+.admin-page .brand-logo-wrap {
+  width: 48px !important;
+  height: 48px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+.admin-page #brandLogo {
+  width: 48px !important;
+  height: 48px !important;
+  display: block !important;
+  object-fit: contain !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  background: transparent !important;
+}
+
+/* ===== PRODUCT DETAIL SHEET + MULTI IMAGE ADMIN ===== */
+.price-old{color:#6E7C93;text-decoration:line-through;text-decoration-thickness:2px;margin-right:7px}
+.price-new{color:#F5F1E6;font-weight:900}
+.product-detail-popup{position:fixed;inset:0;z-index:2000;background:#000b;backdrop-filter:blur(9px);display:flex;align-items:flex-end;justify-content:center;padding:0;transition:opacity .22s ease}
+.product-detail-popup.hidden{display:none!important}
+.product-detail-sheet{width:min(760px,100%);max-height:92vh;overflow:auto;background:#223A6E;border:1px solid #304C85;border-radius:28px 28px 0 0;box-shadow:0 -18px 55px #000d;color:#F5F1E6;transform:translateY(0);animation:detailUp .25s ease-out}
+@keyframes detailUp{from{transform:translateY(100%);opacity:.6}to{transform:translateY(0);opacity:1}}
+.detail-close{position:absolute;right:18px;top:14px;z-index:5;width:42px;height:42px;border:0;border-radius:14px;background:#223A6Ecc;color:#fff;font-size:30px;line-height:40px;cursor:pointer;box-shadow:5px 5px 12px #0C1730,-4px -4px 9px #3A5A8F}
+.detail-gallery{position:relative;width:100%;height:min(58vh,520px);overflow:hidden;background:#1A2E5A;border-radius:28px 28px 0 0;touch-action:pan-y}
+.detail-track{display:flex;width:100%;height:100%;transition:transform .25s ease;will-change:transform}
+.detail-slide{flex:0 0 100%;width:100%;height:100%;display:grid;place-items:center;background:#1A2E5A}
+.detail-slide img{display:block;width:100%;height:100%;object-fit:contain}
+.gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border:0;border-radius:50%;background:#111c;color:#fff;font-size:36px;line-height:38px;cursor:pointer;box-shadow:5px 5px 12px #0008,-3px -3px 8px #3332}
+.gallery-prev{left:12px}.gallery-next{right:12px}
+.gallery-counter{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);padding:7px 12px;border-radius:999px;background:#1A2E5Acc;color:#eee;font-size:12px;letter-spacing:1px}
+.detail-content{padding:25px 28px 30px}.detail-content h2{font:700 34px Georgia,serif;margin:8px 0 14px}.detail-price{font-size:22px;font-weight:900;margin-bottom:8px}.detail-stock{color:#7C8AA0;margin:4px 0 12px}.detail-description,.detail-spec{color:#8B9AAE;line-height:1.75;white-space:pre-line;margin:8px 0}.detail-order{width:100%;margin-top:18px}.detail-order:disabled{opacity:.45;cursor:not-allowed}
+body.detail-open{overflow:hidden}
+.image-input-block{grid-column:1/-1;display:grid;gap:8px}.image-input-block label{font-weight:800;color:#F0A868}.image-input-block small{color:#6E7C93;line-height:1.5}.image-input-list{display:grid;gap:9px}.image-input-row{display:flex;gap:8px;align-items:center}.image-input-row input{flex:1;min-width:0}.image-remove-btn,.image-add-btn{border:0;border-radius:11px;cursor:pointer}.image-remove-btn{width:46px;height:46px;background:#7d2929;color:#fff;font-size:22px}.image-add-btn{padding:11px 14px;background:#223A6E;color:#F0A868;box-shadow:5px 5px 10px #0C1730,-4px -4px 9px #294575}.form-actions{display:flex;gap:10px;align-items:center}.form-actions .gold-btn{flex:1}.admin-edit{background:#F0A868;color:#111;border:0;padding:8px 11px;border-radius:9px;font-weight:800;cursor:pointer}.table-actions{white-space:nowrap}.table-actions button{margin-right:6px}
+@media(max-width:700px){.product-detail-sheet{max-height:94vh;border-radius:24px 24px 0 0}.detail-gallery{height:45vh;border-radius:24px 24px 0 0}.detail-content{padding:20px 18px 24px}.detail-content h2{font-size:28px}.gallery-arrow{width:40px;height:40px;font-size:32px}.image-input-row{gap:6px}.image-remove-btn{width:42px;height:42px}.form-actions{grid-column:1/-1}.form-actions .admin-tab{margin:0}.price-old{font-size:.9em}}
+
+/* Batasi deskripsi di kartu etalase menjadi maksimal 3 baris */
+.product-card .description,
+.card .description {
+  display: block;
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
+
+  /* maksimal 40 karakter secara visual */
+  max-width: 40ch;
+  max-height: 3.3em;
+}
+
+/* Popup tetap menampilkan deskripsi lengkap */
+.popup-card .description {
+  max-width: none;
+  max-height: none;
+  overflow: visible;
+}
+
+.product-card .description,
+.product-card .spec {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== FIX WARNA PRODUK ===== */
+
+/* Judul List Produk */
+.products-section .eyebrow,
+.products-section h2 {
+  color: #fff !important;
+}
+
+/* Nama produk */
+.product-card h3,
+.product-card h3 a,
+.product-card .product-title,
+.product-card .product-title a {
+  color: #fff !important;
+  text-decoration: none !important;
+}
+
+/* Tombol Lihat */
+.product-card button,
+.product-card .btn,
+.product-card .view-btn,
+.product-card a.btn {
+  color: #000 !important;
+  text-decoration: none !important;
+}
+
+/* Kategori CPM 1 / CPM 2 / JASA */
+.product-card .category,
+.product-card .product-category,
+.product-card .eyebrow {
+  color: #f0b56a !important;
+}
