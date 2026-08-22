@@ -562,3 +562,36 @@ body.detail-open{overflow:hidden}
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* ===== FIX WARNA PRODUK ===== */
+
+/* Judul List Produk */
+.products-section .eyebrow,
+.products-section h2 {
+  color: #fff !important;
+}
+
+/* Nama produk */
+.product-card h3,
+.product-card h3 a,
+.product-card .product-title,
+.product-card .product-title a {
+  color: #fff !important;
+  text-decoration: none !important;
+}
+
+/* Tombol Lihat */
+.product-card button,
+.product-card .btn,
+.product-card .view-btn,
+.product-card a.btn {
+  color: #000 !important;
+  text-decoration: none !important;
+}
+
+/* Kategori CPM 1 / CPM 2 / JASA */
+.product-card .category,
+.product-card .product-category,
+.product-card .eyebrow {
+  color: #f0b56a !important;
+}
