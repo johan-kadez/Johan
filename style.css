@@ -636,3 +636,81 @@ body.detail-open{overflow:hidden}
   text-decoration: none !important;
   text-align: center !important;
 }
+
+/* =========================================================
+   DETAIL PRODUK — CENTER + BACKGROUND LOGO + TOMBOL X
+   ========================================================= */
+
+/* Panel detail */
+.product-detail-sheet {
+  position: relative !important;
+
+  background:
+    linear-gradient(
+      rgba(8, 14, 28, 0.88),
+      rgba(8, 14, 28, 0.94)
+    ),
+    url("./logo.png") center / cover no-repeat !important;
+}
+
+/* Semua isi detail rata tengah */
+.product-detail-sheet .detail-content {
+  text-align: center !important;
+}
+
+/* Kategori */
+.product-detail-sheet .detail-content .eyebrow {
+  text-align: center !important;
+}
+
+/* Nama produk */
+.product-detail-sheet .detail-content h2 {
+  text-align: center !important;
+}
+
+/* ID / deskripsi / stok / spesifikasi */
+.product-detail-sheet .detail-content p,
+.product-detail-sheet .detail-description,
+.product-detail-sheet .detail-spec,
+.product-detail-sheet .detail-stock {
+  text-align: center !important;
+}
+
+/* Harga */
+.product-detail-sheet .detail-price {
+  text-align: center !important;
+}
+
+/* Tombol X — pojok kanan atas */
+.product-detail-sheet .detail-close {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  z-index: 9999 !important;
+
+  width: 42px !important;
+  height: 42px !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  background: rgba(10, 18, 35, 0.85) !important;
+  color: #fff !important;
+
+  border: 0 !important;
+  border-radius: 12px !important;
+
+  font-size: 27px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+
+  cursor: pointer !important;
+  text-align: center !important;
+}
+
+/* Efek saat X disentuh */
+.product-detail-sheet .detail-close:active {
+  transform: scale(0.94);
+}
