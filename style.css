@@ -1053,7 +1053,7 @@ body.product-page-body {
 .product-card .view-btn,
 .product-card .btn,
 .product-card a.btn {
-  width: calc(100% - 64px) !important;
+  width: calc(100% - 32px) !important;
   min-width: 0 !important;
   height: 42px !important;
   min-height: 42px !important;
@@ -1089,7 +1089,7 @@ body.product-page-body {
   .product-card .view-btn,
   .product-card .btn,
   .product-card a.btn {
-    width: calc(100% - 64px) !important;
+    width: calc(100% - 32px) !important;
     height: 40px !important;
     min-height: 40px !important;
     margin: 12px auto 0 !important;
