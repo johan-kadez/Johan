@@ -9,8 +9,8 @@ Struktur:
 - `firebase-config.js` = Firebase config.
 
 URL:
-- `` = public store
-- `.etmingantenk` = admin panel
+- `/` = public store
+- `/etmingantenk` = admin panel
 
 Vercel memakai rewrite `/admin/` ke `/admin.html`.
 
