@@ -627,7 +627,7 @@ body.detail-open{overflow:hidden}
   padding: 12px !important;
   background: #F0A868 !important;
   color: #111 !important;
-  border: 0 !important;
+  bo=rder: 0 !important;
   border-radius: 11px !important;
   font-size: 15px !important;
   font-weight: bold !important;
@@ -637,15 +637,42 @@ body.detail-open{overflow:hidden}
   text-align: center !important;
 }
 
-/* =================================================
-   DETAIL PRODUK - RESPONSIVE HP + LAPTOP/PC
-   ================================================= */
+/* =========================================================
+   PRODUCT DETAIL — FINAL RESPONSIVE
+   HP / TABLET / LAPTOP / PC
+   ========================================================= */
 
+.product-detail-popup {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  padding: 12px !important;
+  box-sizing: border-box !important;
+
+  overflow: hidden !important;
+}
+
+/* PANEL */
 .product-detail-sheet {
   position: relative !important;
-  width: min(760px, 100%) !important;
-  max-width: 100% !important;
-  max-height: 92vh !important;
+
+  width: min(760px, calc(100vw - 24px)) !important;
+  max-width: calc(100vw - 24px) !important;
+
+  height: min(92dvh, 850px) !important;
+  max-height: calc(100dvh - 24px) !important;
+
+  margin: 0 auto !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+
   overflow-x: hidden !important;
   overflow-y: auto !important;
 
@@ -653,60 +680,106 @@ body.detail-open{overflow:hidden}
 
   background:
     linear-gradient(
-      rgba(8, 14, 28, .88),
-      rgba(8, 14, 28, .94)
+      rgba(8,14,28,.88),
+      rgba(8,14,28,.94)
     ),
     url("./logo.png") center / cover no-repeat !important;
 }
 
-/* Bagian informasi */
+/* FOTO */
+.product-detail-sheet .detail-gallery {
+  position: relative !important;
+
+  width: 100% !important;
+  max-width: 100% !important;
+
+  height: min(52vh, 480px) !important;
+  min-height: 240px !important;
+
+  flex: 0 1 auto !important;
+
+  box-sizing: border-box !important;
+
+  overflow: hidden !important;
+}
+
+/* TRACK FOTO */
+.product-detail-sheet .detail-track,
+.product-detail-sheet .detail-slide {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+
+  box-sizing: border-box !important;
+}
+
+/* GAMBAR */
+.product-detail-sheet .detail-slide img {
+  display: block !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  max-width: 100% !important;
+
+  object-fit: contain !important;
+}
+
+/* AREA INFORMASI */
 .product-detail-sheet .detail-content {
   width: 100% !important;
   max-width: 100% !important;
-  box-sizing: border-box !important;
+
+  flex: 0 0 auto !important;
 
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
 
-  text-align: center !important;
-
-  padding: clamp(18px, 4vw, 30px)
-           clamp(16px, 4vw, 28px)
-           clamp(24px, 5vw, 35px) !important;
-}
-
-/* Semua teks center tanpa bikin melebar */
-.product-detail-sheet .detail-content > * {
-  max-width: 100% !important;
   box-sizing: border-box !important;
+
+  padding: 24px clamp(16px, 4vw, 28px) 30px !important;
+
   text-align: center !important;
 }
 
-/* Nama produk */
+/* SEMUA ELEMEN DETAIL */
+.product-detail-sheet .detail-content > * {
+  width: 100% !important;
+  max-width: 600px !important;
+
+  margin-left: auto !important;
+  margin-right: auto !important;
+
+  box-sizing: border-box !important;
+
+  text-align: center !important;
+}
+
+/* JUDUL */
 .product-detail-sheet .detail-content h2 {
   font-size: clamp(24px, 5vw, 34px) !important;
   line-height: 1.2 !important;
-  overflow-wrap: anywhere !important;
-}
-
-/* Deskripsi & spesifikasi */
-.product-detail-sheet .detail-description,
-.product-detail-sheet .detail-spec {
-  width: min(100%, 600px) !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
 
   overflow-wrap: anywhere !important;
   word-break: break-word !important;
 }
 
-/* Harga */
+/* DESKRIPSI */
+.product-detail-sheet .detail-description,
+.product-detail-sheet .detail-spec {
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+
+  white-space: pre-line !important;
+}
+
+/* HARGA */
 .product-detail-sheet .detail-price {
   font-size: clamp(19px, 4vw, 22px) !important;
 }
 
-/* Tombol order */
+/* TOMBOL ORDER */
 .product-detail-sheet .detail-order {
   width: 100% !important;
   max-width: 600px !important;
@@ -715,18 +788,126 @@ body.detail-open{overflow:hidden}
 /* X */
 .product-detail-sheet .detail-close {
   position: absolute !important;
+
   top: 12px !important;
   right: 12px !important;
-  z-index: 9999 !important;
 
-  width: 40px !important;
-  height: 40px !important;
+  z-index: 99999 !important;
+
+  width: 42px !important;
+  height: 42px !important;
+
+  margin: 0 !important;
   padding: 0 !important;
 
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
 
-  font-size: 25px !important;
+  box-sizing: border-box !important;
+
+  font-size: 26px !important;
   line-height: 1 !important;
 }
+
+
+/* =========================================================
+   HP
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .product-detail-popup {
+    padding: 0 !important;
+
+    align-items: flex-end !important;
+  }
+
+  .product-detail-sheet {
+    width: 100vw !important;
+    max-width: 100vw !important;
+
+    height: min(94dvh, 900px) !important;
+    max-height: 94dvh !important;
+
+    margin: 0 !important;
+
+    border-radius: 24px 24px 0 0 !important;
+  }
+
+  .product-detail-sheet .detail-gallery {
+    height: 42dvh !important;
+    min-height: 220px !important;
+    max-height: 430px !important;
+
+    flex-shrink: 1 !important;
+  }
+
+  .product-detail-sheet .detail-content {
+    padding:
+      20px
+      16px
+      calc(24px + env(safe-area-inset-bottom))
+      !important;
+  }
+
+  .product-detail-sheet .detail-content h2 {
+    font-size: clamp(23px, 7vw, 30px) !important;
+  }
+
+  .product-detail-sheet .detail-description,
+  .product-detail-sheet .detail-spec {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+
+  .product-detail-sheet .detail-close {
+    top: 10px !important;
+    right: 10px !important;
+
+    width: 40px !important;
+    height: 40px !important;
+  }
+}
+
+
+/* =========================================================
+   HP KECIL — 360px / 375px / 390px
+   ========================================================= */
+
+@media (max-width: 390px) {
+
+  .product-detail-sheet .detail-gallery {
+    height: 36dvh !important;
+    min-height: 190px !important;
+  }
+
+  .product-detail-sheet .detail-content {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  .product-detail-sheet .detail-content h2 {
+    font-size: 23px !important;
+  }
+}
+
+
+/* =========================================================
+   ANTI HORIZONTAL OVERFLOW
+   ========================================================= */
+
+html,
+body {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+.product-detail-popup,
+.product-detail-sheet,
+.detail-gallery,
+.detail-track,
+.detail-slide,
+.detail-content {
+  max-width: 100vw !important;
+ }
